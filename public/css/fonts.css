@@ -1,0 +1,39 @@
+/* Fuentas de Museo */
+
+@font-face {
+    font-family: 'Museo300';
+    src: url('/fonts/Museo300.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Museo700';
+    src: url('/fonts/Museo700.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Fuentas de Nexa */
+
+@font-face {
+    font-family: 'Nexabold';
+    src: url('/fonts/Nexa_Bold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nexalight';
+    src: url('/fonts/Nexa_Light.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Fuentas de Museo Segoe UI Symbol Regular*/
+@font-face {
+    font-family: 'Segoe_ui';
+    src: url('/fonts/segoe-ui-symbol.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+} 

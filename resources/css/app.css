@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Aplicar Museo a los encabezados */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nexabold', sans-serif;
+}
+
+.font-museo300 {
+    font-family: 'Museo300', sans-serif;
+}
+
+.font-museo700 {
+    font-family: 'Museo700', sans-serif;
+}    
+
+.font-nexabold {
+    font-family: 'Nexabold', sans-serif;
+}
+
+.font-nexalight {
+    font-family: 'Nexalight', sans-serif;
+}
+
+.font-segoe_ui {
+    font-family: 'Segoe_ui', sans-serif;
+} 
