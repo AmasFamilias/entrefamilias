@@ -347,8 +347,8 @@ class ComposerStaticInit66956dc1e7a2f373fc94f10d0a6062f1
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -558,6 +558,7 @@ class ComposerStaticInit66956dc1e7a2f373fc94f10d0a6062f1
         'App\\Http\\Controllers\\MensajeNotificacionController' => __DIR__ . '/../..' . '/app/Http/Controllers/MensajeNotificacionController.php',
         'App\\Http\\Controllers\\MessengerController' => __DIR__ . '/../..' . '/app/Http/Controllers/MessengerController.php',
         'App\\Http\\Controllers\\NotificacionController' => __DIR__ . '/../..' . '/app/Http/Controllers/NotificacionController.php',
+        'App\\Http\\Controllers\\OrganizacionController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrganizacionController.php',
         'App\\Http\\Controllers\\PrincipioController' => __DIR__ . '/../..' . '/app/Http/Controllers/PrincipioController.php',
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\TalentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/TalentoController.php',
@@ -574,6 +575,7 @@ class ComposerStaticInit66956dc1e7a2f373fc94f10d0a6062f1
         'App\\Livewire\\Messenger' => __DIR__ . '/../..' . '/app/Livewire/Messenger.php',
         'App\\Livewire\\MostrarVacante' => __DIR__ . '/../..' . '/app/Livewire/MostrarVacante.php',
         'App\\Livewire\\MostrarVacantes' => __DIR__ . '/../..' . '/app/Livewire/MostrarVacantes.php',
+        'App\\Livewire\\OrganizacionComponent' => __DIR__ . '/../..' . '/app/Livewire/OrganizacionComponent.php',
         'App\\Livewire\\PostularVacante' => __DIR__ . '/../..' . '/app/Livewire/PostularVacante.php',
         'App\\Livewire\\Principios' => __DIR__ . '/../..' . '/app/Livewire/Principios.php',
         'App\\Livewire\\Talentos' => __DIR__ . '/../..' . '/app/Livewire/Talentos.php',
@@ -582,6 +584,7 @@ class ComposerStaticInit66956dc1e7a2f373fc94f10d0a6062f1
         'App\\Models\\Categoria' => __DIR__ . '/../..' . '/app/Models/Categoria.php',
         'App\\Models\\Habilidad' => __DIR__ . '/../..' . '/app/Models/Habilidad.php',
         'App\\Models\\Mensaje' => __DIR__ . '/../..' . '/app/Models/Mensaje.php',
+        'App\\Models\\Organizacion' => __DIR__ . '/../..' . '/app/Models/Organizacion.php',
         'App\\Models\\Principio' => __DIR__ . '/../..' . '/app/Models/Principio.php',
         'App\\Models\\Talento' => __DIR__ . '/../..' . '/app/Models/Talento.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
