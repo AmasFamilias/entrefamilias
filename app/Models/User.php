@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
-use App\Livewire\Talentos;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -29,21 +24,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'sobremi',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -71,4 +56,27 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Organizacion::class, 'organizacion_user')->withTimestamps();
     }
+ 
+    public function getProfilePhotoUrlAttribute()
+    {
+        $path = "profiles/" . $this->profile_image; // Añadir la carpeta 'profiles/'
+    
+        if (!empty($this->profile_image) && Storage::disk('public')->exists($path)) {
+            return asset("storage/" . $path); // Devuelve la URL correcta
+        }
+    
+        return asset('images/datospersonales.png'); // Imagen por defecto
+    }
+    
+    public function getTipoUsuarioAttribute()
+    {
+        return $this->attributes['tipo_usuario'] == 1 ? 'Persona' : 'Organización';
+    }
+
+    //Opcion utilizada para el Menu o Futuras Funciones
+    public function tieneOrganizacion()
+    {
+        return $this->organizaciones()->exists();
+    }
+
 }

@@ -17,10 +17,19 @@
                         afines a ti.
                     </p>
                     <div class="font-nexabold flex justify-center items-center py-6 sm:py-8 lg:py-12">
-                        <a href="{{ route('register') }}" 
-                           class="bg-amber-500 py-4 px-8 rounded-lg text-white uppercase underline text-center text-lg sm:text-xl md:text-2xl">
-                            REGÍSTRATE
-                        </a>
+                        @if (auth()->check())
+                            <!-- Botón para usuarios autenticados -->
+                            <a href="{{ route('vacantes.create') }}" 
+                            class="bg-indigo-500 py-4 px-8 rounded-lg text-white uppercase underline text-center text-lg sm:text-xl md:text-2xl">
+                                ¡Comienza tu Anuncio Ahora!
+                            </a>
+                        @else
+                            <!-- Botón para usuarios no autenticados -->
+                            <a href="{{ route('register') }}" 
+                            class="bg-amber-500 py-4 px-8 rounded-lg text-white uppercase underline text-center text-lg sm:text-xl md:text-2xl">
+                                REGÍSTRATE
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -41,11 +50,20 @@
                         afines a ti.
                     </p>
                     <div class="flex justify-center items-center py-6">
-                        <a href="{{ route('register') }}" 
-                           class="bg-amber-500 py-3 px-6 rounded-lg text-white font-bold uppercase underline text-center text-base">
-                            REGÍSTRATE
-                        </a>
-                    </div>
+                        @if (auth()->check())
+                            <!-- Botón para usuarios autenticados -->
+                            <a href="{{ route('vacantes.create') }}" 
+                               class="bg-indigo-500 py-3 px-6 rounded-lg text-white font-bold uppercase underline text-center text-base">
+                               ¡Comienza tu Anuncio Ahora!
+                            </a>
+                        @else
+                            <!-- Botón para usuarios no autenticados -->
+                            <a href="{{ route('register') }}" 
+                               class="bg-amber-500 py-3 px-6 rounded-lg text-white font-bold uppercase underline text-center text-base">
+                                REGÍSTRATE
+                            </a>
+                        @endif
+                    </div>                    
                 </div>
             </div>
         </div>

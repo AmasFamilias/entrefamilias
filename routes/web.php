@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Livewire\Habilidades;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TalentoController;
 use App\Http\Controllers\VacanteController;
@@ -35,7 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/habilidades', [HabilidadController::class, 'index'])->name('habilidades.index');
     Route::get('/talentos', [TalentoController::class, 'index'])->name('talentos.index');
     Route::get('/principios', [PrincipioController::class, 'index'])->name('principios.index');
-    Route::get('/avatar', [AvatarController::class, 'index'])->name('avatar.index');
     Route::post('/profile/update-image', [ProfileController::class, 'updateProfileImage'])->name('profile.updateImage');
     Route::delete('/profile/delete-image', [ProfileController::class, 'deleteImage'])->name('profile.deleteImage');
     Route::get('/organizaciones', [OrganizacionController::class, 'index'])->name('organizaciones.index');

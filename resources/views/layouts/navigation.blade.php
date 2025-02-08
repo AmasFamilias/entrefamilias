@@ -111,17 +111,19 @@
                                 {{ __('Tus Datos') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link :href="route('organizaciones.index')"
-                                class="text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 
-                                focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out"
-                            >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
-                            </svg>
-                              
-                                {{ __('Tu Organización') }}
-                            </x-dropdown-link>
+                            @auth
+                                @if (auth()->user()->tieneOrganizacion()) 
+                                    <x-dropdown-link :href="route('organizaciones.index')"
+                                        class="text-center rounded-full px-4 py-2 text-sm 
+                                        leading-5 text-white bg-amber-500 hover:bg-amber-600 
+                                        focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
+                                        </svg>
+                                        {{ __('Tu Organización') }}
+                                    </x-dropdown-link>
+                                @endif
+                            @endauth
 
                             <!-- Sección de Personalización y Características -->
                             <h3 class="font-semibold text-base text-gray-800 leading-tight mt-4">Competencias</h3>
@@ -328,16 +330,19 @@
                             {{ __('Tus Datos') }}
                         </x-responsive-nav-link>
 
-                        <x-responsive-nav-link :href="route('avatar.index')" class="block w-full text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out"
-                                >
+                        @auth
+                            @if (auth()->user()->tieneOrganizacion()) 
+                                <x-responsive-nav-link :href="route('organizaciones.index')" 
+                                    class="block w-full text-center rounded-full px-4 py-2 text-sm 
+                                    leading-5 text-white bg-amber-500 hover:bg-amber-600 
+                                    focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
                                     </svg>
-                                
-                                    {{ __('Imagen de Perfil') }}
-                        </x-responsive-nav-link>
+                                    {{ __('Tu Organización') }}
+                                </x-responsive-nav-link>
+                            @endif
+                        @endauth
 
                     <h3 class="font-semibold text-base text-gray-800 leading-tight mt-4">Competencias</h3>
                         <x-responsive-nav-link :href="route('habilidades.index')" class="block w-full text-center rounded-full px-4 py-2 text-sm 

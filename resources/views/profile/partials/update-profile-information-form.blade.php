@@ -53,7 +53,6 @@
     }
 </script>
 
-
 <!-- Formulario de Actualización -->
 <form method="post" action="{{ route('profile.update') }}" class="md:w-full space-y-5" novalidate>
     @csrf
@@ -155,6 +154,53 @@
     </div>
 </form>
 
+    <!-- Área de Insignias -->
+    <div class="mt-8">
+        <!-- Etiqueta centrada y mejorada -->
+        <div class="text-center mb-6">
+            <h2 class="text-3xl font-bold text-indigo-600">Mis Insignias</h2>
+        </div>
+    
+        @php
+            // Arreglo con nombres y descripciones para cada insignia.
+            $insignias = [
+                ['nombre' => 'activo', 'descripcion' => 'Activo'],
+                ['nombre' => 'anunciador', 'descripcion' => 'Gran comunicador'],
+                ['nombre' => 'conversador', 'descripcion' => 'Hábil conversador'],
+                ['nombre' => 'pro', 'descripcion' => 'Profesional destacado'],
+                ['nombre' => 'bronce', 'descripcion' => 'Nivel bronce'],
+                ['nombre' => 'plata', 'descripcion' => 'Nivel plata'],
+                ['nombre' => 'oro', 'descripcion' => 'Nivel oro']
+            ];
+        @endphp
+    
+        <!-- Contenedor de insignias con separación -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 border rounded-lg shadow-sm">
+            @foreach ($insignias as $insignia)
+                <div class="cursor-pointer transition-transform duration-300 hover:scale-110 max-w-48 mx-auto" 
+                    onclick="openModal('{{ asset('images/' . $insignia['nombre'] . '.png') }}')">
+                    <img src="{{ asset('images/' . $insignia['nombre'] . '.png') }}" 
+                        alt="{{ $insignia['nombre'] }}" 
+                        class="w-full h-60 object-cover rounded-lg">
+                    <div class="mt-2 text-center text-sm font-medium text-gray-800">
+                        {{ $insignia['descripcion'] }}
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+    
+        <!-- Modal para imagen ampliada (implementado en vanilla JS) -->
+        <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-75 z-50">
+            <div class="relative bg-white p-4 rounded-lg">
+                <button type="button" onclick="closeModal()" class="absolute top-0 right-0 m-2 text-3xl text-gray-600">&times;</button>
+                <img id="modalImage" src="" alt="Insignia Ampliada" class="max-h-screen max-w-full rounded-lg">
+            </div>
+        </div>
+    </div>
+    
+   
+
 @push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -186,4 +232,29 @@
         }
     </script>
 
+    <script>
+        // Función para abrir el modal con la imagen seleccionada
+        function openModal(imageUrl) {
+            var modal = document.getElementById('modal');
+            var modalImage = document.getElementById('modalImage');
+            modalImage.src = imageUrl;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // Función para cerrar el modal
+        function closeModal() {
+            var modal = document.getElementById('modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Cerrar el modal al hacer clic fuera de la caja central
+        window.addEventListener('click', function(e) {
+            var modal = document.getElementById('modal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
 @endpush
