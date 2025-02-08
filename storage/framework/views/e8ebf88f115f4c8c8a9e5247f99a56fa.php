@@ -1,2 +1,0 @@
-<img src="<?php echo e(asset('images/logofamiliaxfamilia.png')); ?>" alt="Logo" class="w-64 h-auto mx-auto my-2">
-<?php /**PATH C:\Users\SergioOviedoVarela\Desktop\entrefamilias\resources\views/components/application-logo.blade.php ENDPATH**/ ?>
