@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TalentoController;
 use App\Http\Controllers\VacanteController;
 use App\Http\Controllers\CandidatoController;
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\HabilidadController;
 use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\PrincipioController;
@@ -21,9 +22,10 @@ Route::get('/amasfamilias', [HomeController::class, 'amasfamilias'])->name('amas
 Route::get('/personas', [HomeController::class, 'personas'])->name('seccionpersonas');
 
 Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified'])->name('vacantes.index');
-Route::get('/oportunidad/create', [VacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes.create');
-Route::get('/oportunidad/{vacante}/edit', [VacanteController::class, 'edit'])->middleware(['auth', 'verified'])->name('vacantes.edit');
-Route::get('/oportunidad/{vacante}', [VacanteController::class, 'show'])->name('vacantes.show');
+Route::get('/anuncio/create', [VacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes.create');
+Route::get('/anuncio/{vacante}/edit', [VacanteController::class, 'edit'])->middleware(['auth', 'verified'])->name('vacantes.edit');
+Route::get('/anuncio/{vacante}', [VacanteController::class, 'show'])->name('vacantes.show');
+Route::get('/anuncio/categoria/{categoria}', [CategoriaController::class, 'show'])->name('vacantes.categoria');
 Route::get('/candidatos/{vacante}', [CandidatoController::class, 'index'])->name('candidatos.index');
 
 Route::middleware('auth')->group(function () {

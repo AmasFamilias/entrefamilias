@@ -31,7 +31,7 @@ class Vacante extends Model
         'descrip_larga',      
         'presencial',         
         'virtual',            
-        'evento',             
+        'evento',              
         'fecha_evento',       
         'imagen',           
         'etiquetas',          
@@ -67,5 +67,11 @@ class Vacante extends Model
     {
         return $this->belongsTo(Organizacion::class, 'organizacion_id');
     }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 
 }

@@ -38,7 +38,7 @@ class MostrarVacantes extends Component
         $vacantes = Vacante::with('candidatos')
             ->where('user_id', auth()->id())
             ->latest()
-            ->paginate(10);
+            ->paginate(5);
 
         return view('livewire.mostrar-vacantes', [
             'vacantes' => $vacantes

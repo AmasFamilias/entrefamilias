@@ -8,36 +8,49 @@ use Illuminate\Support\Facades\Auth;
 
 class Habilidades extends Component
 {
-    public $selectedHabilidades = [];  // Arreglo para almacenar las habilidades seleccionadas
+    public $selectedHabilidades = [];
+    public $errorSeleccion = false;
+    public $showSuccessModal = false; // Definir variable para evitar errores
 
     public function mount()
     {
-        // Al iniciar el componente, cargamos las habilidades seleccionadas por el usuario
         $this->selectedHabilidades = Auth::user()->habilidades->pluck('id')->toArray();
-    }           
+    }
 
-    public function updatedSelectedHabilidades()
+    public function toggleHabilidad($habilidadId)
     {
-        // Verificar si el usuario selecciona más de 2 habilidades
-        if (count($this->selectedHabilidades) > 2) {
-            array_pop($this->selectedHabilidades); // Quitar la habilidad seleccionada en exceso
+        if (in_array($habilidadId, $this->selectedHabilidades)) {
+            $this->selectedHabilidades = array_diff($this->selectedHabilidades, [$habilidadId]);
+            $this->errorSeleccion = false;
+        } elseif (count($this->selectedHabilidades) < 2) {
+            $this->selectedHabilidades[] = $habilidadId;
+            $this->errorSeleccion = false;
+        } else {
+            $this->errorSeleccion = true;
         }
     }
 
     public function actualizarHabilidades()
     {
-        // Sincronizar las habilidades seleccionadas con la tabla pivote
         Auth::user()->habilidades()->sync($this->selectedHabilidades);
+        $this->showSuccessModal = true; // Mostrar modal de éxito
+        $this->dispatch('habilidadesActualizadas');
+    }
 
-        // Disparar evento para mostrar una alerta de éxito
-        $this->dispatch('habilidadesActualizadas'); 
+    public function cerrarModal()
+    {
+        $this->showSuccessModal = false;
+    }
+
+    public function getTieneHabilidadesProperty()
+    {
+        return Auth::user()->habilidades()->exists();
     }
 
     public function render()
     {
         $habilidades = Habilidad::all();
-
-        return view('livewire.habilidades',[
+        return view('livewire.habilidades', [
             'habilidades' => $habilidades
         ]);
     }

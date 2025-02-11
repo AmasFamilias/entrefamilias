@@ -127,41 +127,15 @@
 
                             <!-- Sección de Personalización y Características -->
                             <h3 class="font-semibold text-base text-gray-800 leading-tight mt-4">Competencias</h3>
-                            <x-dropdown-link :href="route('habilidades.index')"
-                                class="text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 
-                                focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
-                                </svg>
-                              
-                                {{ __('Habilidades') }}
-                            </x-dropdown-link>
+
+                            {{-- CONTROL DE LAS HABILIDADES --}}
+                            @livewire('menu-habilidades')
                         
-                            <x-dropdown-link :href="route('talentos.index')"
-                                class="text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 
-                                focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out mt-2"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
-                                </svg>
-                              
-                                {{ __('Talentos') }}
-                            </x-dropdown-link>
+                            {{-- CONTROL DE LOS TALENTOS --}}
+                            @livewire('menu-talentos')
                         
-                            <x-dropdown-link :href="route('principios.index')"
-                                class="text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 
-                                focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out mt-2"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
-                                </svg>
-                              
-                                {{ __('Principios') }}
-                            </x-dropdown-link>
+                            {{-- CONTROL DE LOS PRINCIPIOS --}}
+                            @livewire('menu-principios')
                         
                             <h3 class="font-semibold text-base text-gray-800 leading-tight mt-4">¡Hasta Luego!</h3>
                             <!-- Cerrar Sesión -->
@@ -329,7 +303,7 @@
                     
                             {{ __('Tus Datos') }}
                         </x-responsive-nav-link>
-
+ 
                         @auth
                             @if (auth()->user()->tieneOrganizacion()) 
                                 <x-responsive-nav-link :href="route('organizaciones.index')" 
@@ -345,35 +319,15 @@
                         @endauth
 
                     <h3 class="font-semibold text-base text-gray-800 leading-tight mt-4">Competencias</h3>
-                        <x-responsive-nav-link :href="route('habilidades.index')" class="block w-full text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
-                                    </svg>
-                                
-                                    {{ __('Habilidades') }}
-                        </x-responsive-nav-link>
+                        
+                        {{-- CONTROL DE LAS HABILIDADES - MODO RESPONSIVO--}}
+                        @livewire('menu-habilidades')
                             
-                        <x-responsive-nav-link :href="route('talentos.index')" class="block w-full text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
-                                    </svg>
-                                
-                                    {{ __('Talentos') }}
-                        </x-responsive-nav-link>
+                        {{-- CONTROL DE LOS TALENTOS --}}
+                        @livewire('menu-talentos')
                             
-                        <x-responsive-nav-link :href="route('principios.index')" class="block w-full text-center rounded-full px-4 py-2 text-sm 
-                                leading-5 text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
-                                    </svg>
-                                
-                                    {{ __('Principios') }}
-                        </x-responsive-nav-link>
+                        {{-- CONTROL DE LOS PRINCIPIOS --}}
+                        @livewire('menu-principios')
 
                     <h3 class="font-semibold text-base text-gray-800 leading-tight mt-4">¡Hasta Luego!</h3>
                     <!-- Cerrar Sesión -->

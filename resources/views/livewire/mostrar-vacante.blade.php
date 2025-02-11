@@ -3,83 +3,113 @@
         <!-- Título de la Oportunidad -->
         <h3 class="font-bold text-3xl text-gray-800 my-3 flex items-center">
             {{ $vacante->titulo }}
-
-            <!-- Enlace para Compartir -->
-            <a href="#" onclick="compartirOportunidad(event)" class="ml-3 text-amber-500 hover:text-blue-600">
-                <!-- Icono SVG de compartir -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-10 w-9 h-9">
-                    <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
-                </svg>
-            </a>
         </h3>
 
         <!-- Otras secciones de información -->
     </div>
 
-    <div class="font-museo300 md:grid md:grid-cols-2 bg-gray-50 p-4 my-10">
-        <p class="font-bold text-sm uppercase text-gray-800 my-3">Empresa:
-            <span class="normal-case font-normal">{{ $vacante->entidad }}</span>
-        </p>
+    <div class="p-10 md:grid md:grid-cols-3 gap-6">
+        <!-- Lado Izquierdo: Información del Anuncio -->
+        <div class="md:col-span-2 bg-gray-50 p-6 rounded-lg shadow">
 
-        <p class="font-bold text-sm uppercase text-gray-800 my-3">Último día disponible:
-            <span class="normal-case font-normal">{{ $vacante->ultimo_dia->toFormattedDateString() }}</span>
-        </p>
+            <div class="grid grid-cols-2 gap-4 text-gray-700">
+                <p class="font-bold text-sm uppercase">Empresa: 
+                    <span class="font-normal normal-case">{{ $vacante->entidad }}</span>
+                </p>
 
-        <p class="font-bold text-sm uppercase text-gray-800 my-3">Categoría:
-            <span class="normal-case font-normal">{{ $vacante->categoria->descripcion }}</span>
-        </p>
-    </div>
+                <p class="font-bold text-sm uppercase">Último día disponible: 
+                    <span class="font-normal normal-case">{{ $vacante->ultimo_dia->format('d/m/Y') }}</span>
+                </p>
 
-    {{-- Zona de la Imagen y la Descripcion --}}
-    <div class="md:grid md:grid-cols-6 gap-4">
-        {{-- Zona de la Imagen --}}
-        <div class="md:col-span-2">
-            <img class="rounded-lg" src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}">
+                <p class="font-bold text-sm uppercase">Categoría: 
+                    <span class="font-normal normal-case">{{ $vacante->categoria->descripcion }}</span>
+                </p>
+            </div>
+
+            <!-- Imagen -->
+            <div class="my-6">
+                <img class="rounded-lg w-full object-cover" 
+                     src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
+                     alt="Imagen de la Vacante">
+            </div>
+
+            <!-- Descripción -->
+            <div>
+                <h2 class="text-2xl font-bold mb-2">Descripción de Anuncio:</h2>
+                <p>{{ $vacante->descripcion }}</p>
+            </div>
+
+            <!-- Etiquetas -->
+            @if(!empty($vacante->etiquetas) && is_array($vacante->etiquetas))
+                <div class="mt-4 flex flex-wrap gap-2">
+                    @foreach($vacante->etiquetas as $etiqueta)
+                        <span class="px-3 py-1 rounded-full text-sm bg-indigo-100 text-indigo-800">
+                            #{{ $etiqueta }}
+                        </span>
+                    @endforeach
+                </div>
+            @endif
+
+            <!-- Tipo de Anuncio -->
+            @if($vacante->tipoanuncio_id)
+                <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-teal-100 text-teal-800 rounded-full">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Tipo: {{ $vacante->tipoanuncio->descripcion }}
+                </div>
+            @endif
         </div>
 
-        {{-- Zona de la Descripcion --}} 
-        <div class="md:col-span-4">
-            <h2 class="text-2xl font-bold mb-5">Descripción de Anuncio:</h2>
-            <p>{{ $vacante->descripcion }}</p>
+        <!-- Lado Derecho: Información del Usuario -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="text-center">
+                <!-- Foto del Usuario -->
+                <img class="w-20 h-20 rounded-full mx-auto" 
+                     src="{{ $vacante->users?->profile_photo_url }}" 
+                     alt="Foto de {{ $vacante->users?->name ?? 'Usuario desconocido' }}">
+
+                <h3 class="text-lg font-bold mt-3">{{ $vacante->users?->name ?? 'Usuario desconocido' }}</h3>
+                <p class="text-gray-600">{{ $vacante->entidad }}</p>
+
+                <!-- Organización -->
+                @if($vacante->organizacion_id)
+                    <div class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M3 10h11M9 21V3m5 18h5m-2-2v4"/>
+                        </svg>
+                        Organización: {{ $vacante->organizacion->nombre }}
+                    </div>
+                @endif
+            </div>
+
+            <!-- Publicado hace -->
+            <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Publicado hace: {{ $vacante->created_at->diffForHumans() }}
+            </div>
+
+            <!-- Botón para Contactar -->
+            @guest
+                <div class="mt-5 bg-gray-50 border border-dashed p-5 text-center">
+                    <p>
+                        ¿Te interesa este anuncio?  
+                        <a class="font-bold text-indigo-600 hover:underline" 
+                            href="{{ route('login', ['redirect' => request()->fullUrl()]) }}">
+                            Inicia sesión para ponerte en contacto.
+                        </a>
+                    </p>
+                </div>
+            @endguest
+
+            @can('postular', $vacante)
+                <livewire:postular-vacante :vacante="$vacante" />
+            @endcan
         </div>
-    </div>
-
-    @guest
-        <div class="font-museo300 mt-5 bg-gray-50 border border-dashed p-5 text-center">
-            <p>
-                ¿Te interesa este Anuncio?, 
-                <a class="font-bold text-indigo-600 hover:underline" 
-                    href="{{ route('login', ['redirect' => request()->fullUrl()]) }}">
-                    Inicia sesión para ponerte en contacto con este y otros anuncios rápidamente.
-                </a>
-            </p>
-        </div>
-    @endguest
-    
-    @can('postular', $vacante)
-        <livewire:postular-vacante :vacante="$vacante" />
-    @endcan
-</div>
-
-<script>
-    function compartirOportunidad(event) {
-        event.preventDefault();
-        
-        // URL a compartir (modifica según sea necesario)
-        const url = window.location.href;
-        const text = encodeURIComponent('¡Mira este anuncio en ' + url + '!');
-
-        // Genera el enlace de compartir usando la API de Web Share si está disponible
-        if (navigator.share) {
-            navigator.share({
-                title: document.title,
-                text: text,
-                url: url,
-            }).then(() => console.log('Compartido exitosamente'))
-            .catch((error) => console.error('Error al compartir:', error));
-        } else {
-            // Fallback para navegadores que no soportan la API de Web Share
-            alert('La función de compartir no es compatible con este navegador.');
-        }
-    }
-</script>
+    </div>    
+</div>  

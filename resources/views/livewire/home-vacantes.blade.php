@@ -1,48 +1,97 @@
-<div>
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+        @if (!$paginacion)
+            @foreach ($categorias as $categoria)
+                <div class="mb-12 bg-white shadow-sm rounded-lg p-6">
+                    <!-- ENCABEZADO DE LA CATEGORÍA -->
+                    <div class="flex justify-between items-center">
+                        <h3 class="flex items-center font-extrabold text-2xl md:text-3xl text-gray-700">
+                            <!-- Ícono de la categoría -->
+                            @if ($categoria->icono)
+                                <img src="{{ asset('storage/' . $categoria->icono) }}" class="w-6 h-6 mr-2" alt="Icono de {{ $categoria->descripcion }}">
+                            @else
+                                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/>
+                                </svg>
+                            @endif
+                            {{ $categoria->descripcion }}
+                        </h3>
 
-    <livewire:filtrar-vacantes/>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto">
-            <h3 class="font-extrabold text-4xl text-gray-700 mb-12">
-                Nuestras Oportunidades Disponibles
-            </h3>
-
-            <div class="bg-white shadow-sm rounded-lg p-6 divide-y divide-gray-200">
-                @forelse ($vacantes as $vacante )
-                    <div class="md:flex md:justify-between md:items-center py-5">
-                        <div class="md:flex-1">
-                            <a class="text-3xl font-extrabold text-gray-600" href="{{ route('vacantes.show', $vacante->id) }}">
-                                {{ $vacante->titulo}}
-                            </a>
-                            <p class="text-base text-gray-600 mb-1">
-                                {{ $vacante->entidad}}
-                            </p>
-                            <p class="text-xs font-bold text-gray-600 mb-1">
-                                {{ $vacante->categoria->descripcion}}
-                            </p>
-                            <p class="font-bold text-xs text-gray-600">
-                                Último día para Postularse:
-                                <span class="font-normal">{{ $vacante->ultimo_dia->format('d/m/Y') }}</span>
-                            </p>
-                        </div>
-
-                        <div class="mt-5 md:mt-0">
-                            <a class="bg-indigo-500 p-3 text-sm uppercase font-bold text-white rounded-lg block text-center" 
-                                href="{{ route('vacantes.show', $vacante->id) }}">
-                                Ver Oportunidad
-                            </a>
-                        </div>
+                        <!-- Ver más -->
+                        <a href="{{ route('vacantes.categoria', ['categoria' => $categoria->id]) }}" 
+                            class="text-indigo-500 hover:text-indigo-700 transition font-semibold">
+                             Ver más {{ $categoria->descripcion }} →
+                         </a>                         
+                         
                     </div>
-                @empty
-                    <p class="p-3 text-center text-sm text-gray-600">No hay Oportunidades aún</p>                    
-                @endforelse
-            </div>
 
-            <div class="my-10">
-                {{ $vacantes->links('pagination::tailwind') }}
-            </div>
-            
-        </div>
+                    <!-- LISTADO DE VACANTES -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                        @forelse ($vacantesPorCategoria[$categoria->id] ?? [] as $vacante)
+                            <div class="relative bg-white shadow-lg rounded-xl overflow-hidden transition-transform duration-300 hover:scale-105">
+                                <!-- Imagen del anuncio -->
+                                <div class="w-full relative overflow-hidden rounded-t-xl">
+                                    <img 
+                                        src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
+                                        alt="Imagen vacante {{ $vacante->titulo }}" 
+                                        class="w-full h-56 object-cover transition-opacity duration-300 hover:opacity-90"
+                                        loading="lazy"
+                                    > 
+                                </div>
+
+                                <!-- Tipo de modalidad en la esquina superior izquierda -->
+                                <div class="absolute top-3 left-3">
+                                    @if($vacante->presencial == 1)
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs bg-green-100 text-green-800 font-semibold shadow">
+                                            📍 Presencial
+                                        </span>
+                                    @endif
+
+                                    @switch($vacante->virtual)
+                                        @case(1)
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-800 font-semibold shadow">
+                                                💻 Virtual
+                                            </span>
+                                            @break
+                                        @case(2)
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800 font-semibold shadow">
+                                                🔄 Híbrido
+                                            </span>
+                                            @break
+                                        @case(0)
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-800 font-semibold shadow">
+                                                🚫 No Virtual
+                                            </span>
+                                            @break
+                                    @endswitch
+                                </div>
+
+                                <!-- Contenido de la vacante -->
+                                <div class="p-4">
+                                    <h2 class="text-lg font-bold text-gray-800">
+                                        {{ $vacante->titulo }}
+                                    </h2>
+                                    <p class="text-gray-600 text-sm mt-2">
+                                        {{ Str::limit($vacante->descripcion, 150) }}
+                                    </p>
+
+                                    <div class="mt-4">
+                                        <a href="{{ route('vacantes.show', $vacante->id) }}" 
+                                        class="block bg-indigo-500 hover:bg-indigo-600 transition-colors px-4 py-2 text-center text-white font-bold rounded-lg shadow">
+                                            🔍 Ver Detalles
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <!-- Si no hay vacantes disponibles -->
+                            <div class="col-span-4 text-center p-8 bg-white rounded-xl border-2 border-dashed border-gray-200">
+                                <p class="text-gray-500 text-lg font-semibold">😕 No hay Anuncios disponibles</p> 
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            @endforeach
+        @endif
     </div>
 </div>

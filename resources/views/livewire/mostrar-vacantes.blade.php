@@ -1,6 +1,6 @@
 <div>
     <div class="space-y-6">
-        @forelse ($vacantes as $vacante)
+        @forelse ($vacantes as $vacante) 
             <!-- Tarjeta de Vacante -->
             <div class="relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group"
                  x-data="{ show: false }"
@@ -177,7 +177,7 @@
                             alt="{{ 'Imagen vacante ' . $vacante->titulo }}" 
                             class="w-full h-64 object-cover"
                             loading="lazy"
-                        >
+                        > 
                     </div>
                 </div>
             </div>

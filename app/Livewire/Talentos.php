@@ -1,46 +1,51 @@
 <?php
 
 namespace App\Livewire;
- 
+
 use App\Models\Talento;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
 class Talentos extends Component
 {
-    public $selectedTalentos = [];  // Arreglo para almacenar los talentos seleccionadas
+    public $selectedTalentos = [];
+    public $errorSeleccion = false;
+    public $showSuccessModal = false;
 
     public function mount()
     {
-        // Al iniciar el componente, cargamos los talentos seleccionadas por el usuario
+        // Cargar los talentos seleccionados por el usuario
         $this->selectedTalentos = Auth::user()->talentos->pluck('id')->toArray();
     }
 
-    public function updatedSelectedTalentos()
+    public function toggleTalento($talentoId)
     {
-        // Verificar si el usuario selecciona más de 5 talentos
-        if (count($this->selectedTalentos) > 5) {
-            array_pop($this->selectedTalentos); // Quitar el talento seleccionado en exceso
+        if (in_array($talentoId, $this->selectedTalentos)) {
+            $this->selectedTalentos = array_diff($this->selectedTalentos, [$talentoId]);
+            $this->errorSeleccion = false;
+        } elseif (count($this->selectedTalentos) < 5) {
+            $this->selectedTalentos[] = $talentoId;
+            $this->errorSeleccion = false;
+        } else {
+            $this->errorSeleccion = true;
         }
     }
 
     public function actualizarTalentos()
     {
-        // Sincronizar los talentos seleccionadas con la tabla pivote
         Auth::user()->talentos()->sync($this->selectedTalentos);
+        $this->showSuccessModal = true;
+        $this->dispatch('talentosActualizados');
+    }
 
-         // Disparar evento para mostrar una alerta de éxito
-         $this->dispatch('talentosActualizados'); 
-
+    public function cerrarModal()
+    {
+        $this->showSuccessModal = false;
     }
 
     public function render()
     {
         $talentos = Talento::orderBy('descripcion')->get();
-
-        return view('livewire.talentos', [
-            'talentos' => $talentos
-        ]);
+        return view('livewire.talentos', ['talentos' => $talentos]);
     }
 }
-

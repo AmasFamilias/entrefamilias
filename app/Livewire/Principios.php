@@ -8,36 +8,43 @@ use Illuminate\Support\Facades\Auth;
 
 class Principios extends Component
 {
-    public $selectedPrincipios = [];  // Arreglo para almacenar los Principios seleccionadas
+    public $selectedPrincipios = [];
+    public $errorSeleccion = false;
+    public $showSuccessModal = false;
 
     public function mount()
     {
-        // Al iniciar el componente, cargamos los talentos seleccionadas por el usuario
         $this->selectedPrincipios = Auth::user()->principios->pluck('id')->toArray();
     }
 
-    public function updatedSelectedPrincipios()
+    public function togglePrincipio($principioId)
     {
-        // Verificar si el usuario selecciona más de 5 Principios
-        if (count($this->selectedPrincipios) > 5) {
-            array_pop($this->selectedPrincipios); // Quitar el Principio seleccionado en exceso
+        if (in_array($principioId, $this->selectedPrincipios)) {
+            $this->selectedPrincipios = array_diff($this->selectedPrincipios, [$principioId]);
+            $this->errorSeleccion = false;
+        } elseif (count($this->selectedPrincipios) < 5) {
+            $this->selectedPrincipios[] = $principioId;
+            $this->errorSeleccion = false;
+        } else {
+            $this->errorSeleccion = true;
         }
     }
 
-
     public function actualizarPrincipios()
     {
-        // Sincronizar los talentos seleccionadas con la tabla pivote
         Auth::user()->principios()->sync($this->selectedPrincipios);
+        $this->showSuccessModal = true;
+        $this->dispatch('principiosActualizados');
+    }
 
-        // Disparar evento para mostrar una alerta de éxito
-        $this->dispatch('principiosActualizados'); 
+    public function cerrarModal()
+    {
+        $this->showSuccessModal = false;
     }
 
     public function render()
     {
         $principios = Principio::orderBy('descripcion')->get();
-
         return view('livewire.principios', [
             'principios' => $principios
         ]);
