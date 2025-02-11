@@ -94,8 +94,8 @@
             <img src="{{ asset('images/icon_2.png') }}" alt="Icono 2" class="flex-shrink-0 w-96 h-auto md:w-72 md:h-72 object-contain">
             <span class="font-museo300 flex-shrink-0 text-9xl font-bold text-amber-500 text-center">2</span>
             <div class="flex-1 text-center md:text-left px-4 max-w-lg">
-                <p class="font-nexabold text-xl leading-relaxed text-justify">¿HAS DETECTADO ALGUNA NECESIDAD O CARENCIA EN TU ENTIDAD? PUBLICA TU OPORTUNIDAD EN LA PLATAFORMA.</p>
-                <p class="font-museo300 text-base text-justify">SI TIENES PROBLEMAS PARA PUBLICAR TU PRIMERA OPORTUNIDAD, NO DUDES EN CONSULTARNOS. ¡ESTE ES UNO DE NUESTROS TALENTOS!</p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">¿HAS DETECTADO ALGUNA NECESIDAD O CARENCIA EN TU ENTIDAD? PUBLICA TU ANUNCIO EN LA PLATAFORMA.</p>
+                <p class="font-museo300 text-base text-justify">SI TIENES PROBLEMAS PARA PUBLICAR TU PRIMER ANUNCIO, NO DUDES EN CONSULTARNOS. ¡ESTE ES UNO DE NUESTROS TALENTOS!</p>
             </div>
         </div>
 
@@ -104,7 +104,7 @@
             <span class="font-museo300 flex-shrink-0 text-9xl font-bold text-amber-500 text-center">3</span>
             <div class="flex-1 text-center md:text-left px-4 max-w-lg">
                 <p class="font-nexabold text-xl leading-relaxed text-justify">
-                    CONTACTA CON LAS PERSONAS INTERESADAS EN RESOLVER TU OPORTUNIDAD. INTERCAMBIA IMPRESIONES Y GESTIONA TUS CANDIDATOS.
+                    CONTACTA CON LAS PERSONAS INTERESADAS EN RESOLVER TU ANUNCIO. INTERCAMBIA IMPRESIONES Y GESTIONA TUS CANDIDATOS.
                 </p>
             </div>
             <img src="{{ asset('images/icon_3.png') }}" alt="Icono 2" class="flex-shrink-0 w-96 h-auto md:w-72 md:h-72 object-contain">
@@ -116,7 +116,7 @@
             <span class="font-museo300 flex-shrink-0 text-9xl font-bold text-amber-500 text-center">4</span>
             <div class="flex-1 text-center md:text-left px-4 max-w-lg">
                 <p class="font-nexabold text-base text-justify">
-                    CONFIRMA LA "OPORTUNIDAD", ACOMPAÑA A LA PERSONA Y FORMA PARTE DEL CAMBIO. DA ESA PRIMERA OPORTUNIDAD, APRECIA SU POTENCIAL 
+                    CONFIRMA EL "ANUNCIO", ACOMPAÑA A LA PERSONA Y FORMA PARTE DEL CAMBIO. DA ESE PRIMER ANUNCIO, APRECIA SU POTENCIAL 
                     Y AYUDA A QUE MÁS PERSONAS PUEDAN DEMOSTRAR SU VALOR HUMANO. RECUERDA: NO TIENES POR QUÉ PREOCUPARTE POR NADA MÁS. 
                     <a href="https://amasfamilias.com/" target="_blank" class="text-amber-500 font-extrabold underline">A+FAMILIAS</a> SE ENCARGA DEL RESTO (SEGUROS, RETRIBUCIÓN...)  
                 </p>

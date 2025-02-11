@@ -52,7 +52,7 @@ class EditarVacante extends Component
             $datos['imagen'] = str_replace('public/vacantes/', '', $imagen);
         }
 
-        //Encontrar la Oportunidad a Editar
+        //Encontrar el Anuncio a Editar
         $vacante = Vacante::find($this->vacante_id);
 
         //Asignar los valores
@@ -67,7 +67,7 @@ class EditarVacante extends Component
         $vacante->save();
 
         //Redireccionar
-        session()->flash('mensaje','La Oportunidad se actualizó Correctamente');
+        session()->flash('mensaje','El Anuncio se actualizó Correctamente');
         return redirect()->route('vacantes.index');
     }
 

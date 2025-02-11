@@ -59,7 +59,7 @@
 
         <div class="font-museo300 flex items-center justify-center text-center">
             <p class="leading-relaxed text-xl sm:text-2xl md:text-2xl my-10 max-w-5xl mx-auto text-center">
-              Publica tus oportunidades, participa en los procesos de selección o dona para apoyar al proyecto. 
+              Publica tus anuncios, participa en los procesos de selección o dona para apoyar al proyecto. 
               Si quieres, puedes hacerlo de la siguiente manera.
             </p>
         </div>

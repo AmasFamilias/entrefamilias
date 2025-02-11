@@ -29,7 +29,7 @@ class MostrarVacantes extends Component
             $vacante->delete();
             
             // Opcional: Mostrar notificación de éxito
-            $this->dispatch('notify', 'Oportunidad eliminada correctamente');
+            $this->dispatch('notify', 'Anuncio eliminado correctamente');
         }
     }
 

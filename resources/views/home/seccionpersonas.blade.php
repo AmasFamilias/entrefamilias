@@ -127,7 +127,7 @@
                     <div class="absolute inset-0 border-4 border-white bg-white bg-opacity-30 flex flex-col items-center justify-center w-11/12 sm:w-3/4 h-11/12 sm:h-3/4 mx-auto my-auto">
                         <div class="font-museo700 text-3xl sm:text-4xl text-white absolute top-4 left-4 md:top-6 md:left-6 lg:top-8 lg:left-8">2.</div>
                         <div class="text-center p-2 sm:p-4">
-                            <p class="font-nexabold text-white text-xs sm:text-sm md:text-base">EXPLORA ENTRE TODAS LAS OPORTUNIDADES Y EVALÚA CUÁL ENCAJA MEJOR CON TUS CAPACIDADES.</p>
+                            <p class="font-nexabold text-white text-xs sm:text-sm md:text-base">EXPLORA ENTRE TODAS LOS ANUNCIOS Y EVALÚA CUÁL ENCAJA MEJOR CON TUS CAPACIDADES.</p>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                     <div class="absolute inset-0 border-4 border-white bg-white bg-opacity-30 flex flex-col items-center justify-center w-11/12 sm:w-3/4 h-11/12 sm:h-3/4 mx-auto my-auto">
                         <div class="font-museo700 text-3xl sm:text-4xl text-white absolute top-4 left-4 md:top-6 md:left-6 lg:top-8 lg:left-8">3.</div>
                         <div class="text-center p-2 sm:p-4">
-                            <p class="font-nexabold text-white text-xs sm:text-sm md:text-base">LA OPORTUNIDAD ESTÁ AHÍ. ENVÍA UN MENSAJE A LA ORGANIZACIÓN Y PROGRAMA TU PARTICIPACIÓN.</p>
+                            <p class="font-nexabold text-white text-xs sm:text-sm md:text-base">EL ANUNCIO ESTÁ AHÍ. ENVÍA UN MENSAJE A LA ORGANIZACIÓN Y PROGRAMA TU PARTICIPACIÓN.</p>
                         </div>
                     </div>
                 </div>

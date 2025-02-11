@@ -3,16 +3,16 @@
     <!-- Contenedor de los Campos del Formulario -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <!-- INGRESO DE TITUTLO DE OPORTUNIDAD -->
+        <!-- INGRESO DE TITUTLO DE ANUNCIO -->
         <div>
-            <x-input-label for="titulo" :value="__('Titulo de Oportunidad')" />
+            <x-input-label for="titulo" :value="__('Titulo de Anuncio')" />
             <x-text-input 
                 id="titulo" 
                 class="block mt-1 w-full" 
                 type="text" 
                 wire:model="titulo" 
                 :value="old('titulo')" 
-                placeholder="Titulo de Oportunidad"
+                placeholder="Titulo de Anuncio"
             />
             <x-input-error :messages="$errors->get('titulo')" class="mt-2" />
         </div>
@@ -44,7 +44,7 @@
                 type="text" 
                 wire:model="entidad" 
                 :value="old('entidad')" 
-                placeholder="Nombre de la Entidad que Ofrece la Oportunidad"
+                placeholder="Nombre de la Entidad que Ofrece el Anuncio"
             />
             <x-input-error :messages="$errors->get('entidad')" class="mt-2" />
         </div>
@@ -101,7 +101,7 @@
         </div>
     </div>
 
-        <!-- BOTÓN DE CREAR OPORTUNIDAD -->
+        <!-- BOTÓN DE CREAR ANUNCIO -->
         <div class="flex justify-center mt-4">
             <x-primary-button class="bg-red-500" wire:loading.attr="disabled">{{ __('Guardar Cambios') }}
                 <div 

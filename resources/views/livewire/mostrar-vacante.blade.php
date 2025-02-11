@@ -1,6 +1,6 @@
 <div class="p-10">
     <div class="mb-5 flex items-center justify-between">
-        <!-- Título de la Oportunidad -->
+        <!-- Título de la Anuncio -->
         <h3 class="font-bold text-3xl text-gray-800 my-3 flex items-center">
             {{ $vacante->titulo }}
         </h3>
