@@ -112,7 +112,7 @@
                             </x-dropdown-link>
 
                             @auth
-                                @if (auth()->user()->tieneOrganizacion()) 
+                                @if (auth()->user()->tieneOrganizacion() || auth()->user()->rol == 2) 
                                     <x-dropdown-link :href="route('organizaciones.index')"
                                         class="text-center rounded-full px-4 py-2 text-sm 
                                         leading-5 text-white bg-amber-500 hover:bg-amber-600 
@@ -305,7 +305,7 @@
                         </x-responsive-nav-link>
  
                         @auth
-                            @if (auth()->user()->tieneOrganizacion()) 
+                            @if (auth()->user()->tieneOrganizacion() || auth()->user()->rol == 2) 
                                 <x-responsive-nav-link :href="route('organizaciones.index')" 
                                     class="block w-full text-center rounded-full px-4 py-2 text-sm 
                                     leading-5 text-white bg-amber-500 hover:bg-amber-600 
@@ -317,7 +317,7 @@
                                 </x-responsive-nav-link>
                             @endif
                         @endauth
-
+                    
                     <h3 class="font-semibold text-base text-gray-800 leading-tight mt-4">Competencias</h3>
                         
                         {{-- CONTROL DE LAS HABILIDADES - MODO RESPONSIVO--}}
