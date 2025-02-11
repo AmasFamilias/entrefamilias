@@ -183,7 +183,7 @@
             </div>
         @empty
             <div class="text-center p-8 bg-white rounded-xl border-2 border-dashed border-gray-200">
-                <p class="text-gray-500">No hay oportunidades disponibles</p>
+                <p class="text-gray-500">No hay Anuncios disponibles</p>
             </div>
         @endforelse
 
