@@ -18,14 +18,14 @@
 
         <!-- Rol del Usuario -->
         <div class="mt-4">
-            <x-input-label for="rol" :value="__('¿Que tipo de Cuenta desea en Familia x Familia?')" />
+            <x-input-label for="rol" :value="__('¿Que tipo de Cuenta desea en EntreFamilias?')" />
             
             <select name="rol" id="rol" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 
             rounded-md shadow-sm">               
 
                 <option value="">--Selecciona un rol--</option>
                 <option value="1">PERSONA</option>
-                <option value="2">ORGANIZACION</option>
+                <option value="2">ORGANIZACIÓN</option>
 
             </select>
 

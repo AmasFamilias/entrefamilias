@@ -1,106 +1,128 @@
-<div class="p-10">
-    <div class="mb-5 flex items-center justify-between">
-        <!-- Título de la Anuncio -->
-        <h3 class="font-bold text-3xl text-gray-800 my-3 flex items-center">
+<div class="p-6 md:p-10">
+    <div class="mb-6 flex items-center justify-between">
+        <!-- Título del Anuncio -->
+        <h3 class="font-extrabold text-4xl text-gray-900 flex items-center">
             {{ $vacante->titulo }}
         </h3>
-
-        <!-- Otras secciones de información -->
     </div>
 
-    <div class="p-10 md:grid md:grid-cols-3 gap-6">
+    <div class="md:grid md:grid-cols-3 gap-8">
         <!-- Lado Izquierdo: Información del Anuncio -->
-        <div class="md:col-span-2 bg-gray-50 p-6 rounded-lg shadow">
-
-            <div class="grid grid-cols-2 gap-4 text-gray-700">
-                <p class="font-bold text-sm uppercase">Empresa: 
-                    <span class="font-normal normal-case">{{ $vacante->entidad }}</span>
-                </p>
-
-                <p class="font-bold text-sm uppercase">Último día disponible: 
-                    <span class="font-normal normal-case">{{ $vacante->ultimo_dia->format('d/m/Y') }}</span>
-                </p>
-
-                <p class="font-bold text-sm uppercase">Categoría: 
-                    <span class="font-normal normal-case">{{ $vacante->categoria->descripcion }}</span>
-                </p>
-            </div>
-
+        <div class="md:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
             <!-- Imagen -->
-            <div class="my-6">
-                <img class="rounded-lg w-full object-cover" 
+            <div class="mb-6 overflow-hidden rounded-lg">
+                <img class="rounded-lg w-full object-cover hover:scale-105 transition-transform duration-300" 
                      src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
                      alt="Imagen de la Vacante">
             </div>
 
-            <!-- Descripción -->
-            <div>
-                <h2 class="text-2xl font-bold mb-2">Descripción de Anuncio:</h2>
-                <p>{{ $vacante->descripcion }}</p>
+            <!-- Descripción Larga -->
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold mb-2 text-gray-800">Descripción del Anuncio:</h2>
+                <p class="text-gray-600 leading-relaxed">{{ $vacante->descrip_larga }}</p>
             </div>
 
-            <!-- Etiquetas -->
-            @if(!empty($vacante->etiquetas) && is_array($vacante->etiquetas))
-                <div class="mt-4 flex flex-wrap gap-2">
-                    @foreach($vacante->etiquetas as $etiqueta)
-                        <span class="px-3 py-1 rounded-full text-sm bg-indigo-100 text-indigo-800">
-                            #{{ $etiqueta }}
-                        </span>
-                    @endforeach
-                </div>
-            @endif
-
-            <!-- Tipo de Anuncio -->
-            @if($vacante->tipoanuncio_id)
-                <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-teal-100 text-teal-800 rounded-full">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    Tipo: {{ $vacante->tipoanuncio->descripcion }}
-                </div>
-            @endif
-        </div>
-
-        <!-- Lado Derecho: Información del Usuario -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div class="text-center">
-                <!-- Foto del Usuario -->
-                <img class="w-20 h-20 rounded-full mx-auto" 
-                     src="{{ $vacante->users?->profile_photo_url }}" 
-                     alt="Foto de {{ $vacante->users?->name ?? 'Usuario desconocido' }}">
-
-                <h3 class="text-lg font-bold mt-3">{{ $vacante->users?->name ?? 'Usuario desconocido' }}</h3>
-                <p class="text-gray-600">{{ $vacante->entidad }}</p>
-
-                <!-- Organización -->
-                @if($vacante->organizacion_id)
-                    <div class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M3 10h11M9 21V3m5 18h5m-2-2v4"/>
+            <!-- Información Adicional -->
+            <div class="flex flex-wrap gap-4">
+                @if($vacante->evento && $vacante->fecha_evento)
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8"/>
                         </svg>
-                        Organización: {{ $vacante->organizacion->nombre }}
+                        Fecha de Evento: {{ $vacante->fecha_evento->format('d/m/Y') }}
+                    </span>
+                @endif
+
+                <!-- Tipo de Anuncio -->
+                @if($vacante->tipoanuncio_id)
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-teal-100 text-teal-800 rounded-full ml-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Tipo: {{ $vacante->tipoanuncio->descripcion }}
+                    </div>
+                @endif
+
+                <!-- Presencial -->
+                @if($vacante->presencial == 1)
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Presencial
+                </span>
+                @endif
+        
+                <!-- Virtual -->
+                @switch($vacante->virtual)
+                    @case(1)
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Virtual
+                        </span>
+                        @break
+                    @case(2)
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-800">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                            </svg>
+                            Híbrido
+                        </span>
+                        @break
+                    @case(0)
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            No Virtual
+                        </span>
+                        @break
+                @endswitch
+
+                <!-- Categoría -->
+                @if($vacante->categoria_id)
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-800 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/>
+                        </svg>
+                        Categoría: {{ $vacante->categoria->descripcion }}
                     </div>
                 @endif
             </div>
 
-            <!-- Publicado hace -->
-            <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Publicado hace: {{ $vacante->created_at->diffForHumans() }}
+            <!-- Mostrando Etiquetas -->
+            <div class="mt-6 text-gray-700">
+                @if(!empty($vacante->etiquetas) && is_array($vacante->etiquetas))
+                    <div class="flex flex-wrap gap-2">
+                        @foreach($vacante->etiquetas as $etiqueta)
+                            <span class="px-3 py-1 rounded-full text-sm bg-indigo-100 text-indigo-800">
+                                #{{ $etiqueta }}
+                            </span>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
-            <!-- Botón para Contactar -->
+            <!-- Último día disponible -->
+            <div class="mt-6 text-gray-700">
+                <p class="font-bold text-sm uppercase">Último día disponible: 
+                    <span class="font-normal normal-case">{{ $vacante->ultimo_dia->format('d/m/Y') }}</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Lado Derecho: Información del Usuario -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
             @guest
                 <div class="mt-5 bg-gray-50 border border-dashed p-5 text-center">
                     <p>
                         ¿Te interesa este anuncio?  
                         <a class="font-bold text-indigo-600 hover:underline" 
-                            href="{{ route('login', ['redirect' => request()->fullUrl()]) }}">
+                        href="{{ route('login', ['redirect' => request()->fullUrl()]) }}">
                             Inicia sesión para ponerte en contacto.
                         </a>
                     </p>
@@ -110,6 +132,46 @@
             @can('postular', $vacante)
                 <livewire:postular-vacante :vacante="$vacante" />
             @endcan
+
+            <!-- Información del Usuario -->
+            <div class="text-center">
+                <img class="w-20 h-20 rounded-full mx-auto" 
+                    src="{{ $vacante->users?->profile_photo_url }}" 
+                    alt="Foto de {{ $vacante->users?->name ?? 'Usuario desconocido' }}">
+
+                <h3 class="text-lg font-bold mt-3">{{ $vacante->users?->name ?? 'Usuario desconocido' }}</h3>
+                <p class="text-gray-600">{{ $vacante->entidad }}</p>
+
+                <!-- Organización -->
+                @if($vacante->organizacion_id)
+                    <div class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M3 10h11M9 21V3m5 18h5m-2-2v4"/>
+                        </svg>
+                        Organización: {{ $vacante->organizacion->nombre }}
+                    </div>
+                @endif
+            </div>
+
+            <!-- Sobre mí -->
+            @if($vacante->users?->sobremi)
+                <div class="mt-6 bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-lg shadow-sm">
+                    <h4 class="text-indigo-700 font-semibold text-lg mb-2">Sobre mí</h4>
+                    <p class="text-gray-700 text-justify leading-relaxed">{{ $vacante->users?->sobremi }}</p>
+                </div>
+            @endif
+
+            <livewire:insignias modo="vacante" propietario_id="{{ $vacante->user_id }}" />
+
+            <!-- Publicado hace -->
+            <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Publicado hace: {{ $vacante->created_at->diffForHumans() }}
+            </div>            
         </div>
     </div>    
 </div>  

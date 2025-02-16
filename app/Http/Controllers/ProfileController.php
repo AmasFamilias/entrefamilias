@@ -17,7 +17,7 @@ class ProfileController extends Controller
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
-    }
+    } 
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
@@ -29,7 +29,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('showSuccessModal', true);
     }
 
     public function destroy(Request $request): RedirectResponse

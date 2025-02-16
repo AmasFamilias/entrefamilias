@@ -13,7 +13,7 @@
         </button>
     </div>
 
-    <!-- Botón para eliminar imagen -->
+    <!-- Botón para eliminar imagen --> 
     <form action="{{ route('profile.deleteImage') }}" method="POST" class="mt-3">
         @csrf
         @method('DELETE')
@@ -37,22 +37,6 @@
     </form>
 </header>
 
-<script>
-    function updateImagePreview(event) {
-        const reader = new FileReader();
-        const file = event.target.files[0];
-        
-        reader.onload = function(e) {
-            document.getElementById('profileImagePreview').src = e.target.result;
-        };
-        
-        if (file) {
-            reader.readAsDataURL(file);
-            document.getElementById('updateProfileImageForm').submit();
-        }
-    }
-</script>
-
 <!-- Formulario de Actualización -->
 <form method="post" action="{{ route('profile.update') }}" class="md:w-full space-y-5" novalidate>
     @csrf
@@ -71,9 +55,8 @@
                 </span>
             </x-input-label>
 
-            <x-text-input id="name" name="name" type="text" 
-                            class="mt-1 block w-full" :value="old('name', $user->name)" 
-                            required autofocus autocomplete="name" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" 
+                            :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
@@ -86,10 +69,26 @@
             <x-input-error class="mt-2" :messages="$errors->get('nameuser')" />
         </div>
 
-         <!-- Sobre mi -->
-         <div>
-            <x-input-label for="sobremi" :value="__('sobre mí')" />
+        <!-- Rol -->
+        <div>
+            <x-input-label for="rol">
+                <span class="text-gray-700 flex items-center">
+                    Tu Rol Actual es: 
+                    <span class="ml-2 font-semibold text-indigo-600">{{ $user->rol == 1 ? 'Persona' : 'Organización' }}</span>
+                </span>
+            </x-input-label>
 
+            <select id="rol" name="rol" class="mt-1 block w-full rounded-md shadow-sm border-gray-300">
+                <option value="1" {{ $user->rol == 1 ? 'selected' : '' }}>PERSONA</option>
+                <option value="2" {{ $user->rol == 2 ? 'selected' : '' }}>ORGANIZACIÓN</option>
+            </select>
+
+            <x-input-error class="mt-2" :messages="$errors->get('rol')" />
+        </div>
+
+        <!-- Sobre mí -->
+        <div>
+            <x-input-label for="sobremi" :value="__('Sobre mí')" />
             <textarea id="sobremi" name="sobremi" 
                 class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
                 required autofocus>{{ old('sobremi', $user->sobremi) }}</textarea>
@@ -108,7 +107,9 @@
         <!-- Dirección -->
         <div>
             <x-input-label for="direccion" :value="__('Dirección')" />
-            <textarea id="direccion" name="direccion" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" required autofocus>{{ old('direccion', $user->direccion) }}</textarea>
+            <textarea id="direccion" name="direccion" 
+                class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                required autofocus>{{ old('direccion', $user->direccion) }}</textarea>
             <x-input-error class="mt-2" :messages="$errors->get('direccion')" />
         </div>
 
@@ -123,7 +124,9 @@
                 </span>
             </x-input-label>
 
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" 
+                            class="mt-1 block w-full" :value="old('email', $user->email)" 
+                            required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -144,7 +147,6 @@
                 </div>
             @endif
         </div>
-
         
     </div>
 
@@ -152,71 +154,31 @@
     <div class="flex justify-center mt-4">
         <x-primary-button class="px-8 py-2" id="update-info">{{ __('Actualizar Información') }}</x-primary-button>
     </div>
-</form>
+</form>  
 
-    <!-- Área de Insignias -->
-    <div class="mt-8">
-        <!-- Etiqueta centrada y mejorada -->
-        <div class="text-center mb-6">
-            <h2 class="text-3xl font-bold text-indigo-600">Mis Insignias</h2>
-        </div>
-    
-        @php
-            // Arreglo con nombres y descripciones para cada insignia.
-            $insignias = [
-                ['nombre' => 'activo', 'descripcion' => 'Activo'],
-                ['nombre' => 'anunciador', 'descripcion' => 'Gran comunicador'],
-                ['nombre' => 'conversador', 'descripcion' => 'Hábil conversador'],
-                ['nombre' => 'pro', 'descripcion' => 'Profesional destacado'],
-                ['nombre' => 'bronce', 'descripcion' => 'Nivel bronce'],
-                ['nombre' => 'plata', 'descripcion' => 'Nivel plata'],
-                ['nombre' => 'oro', 'descripcion' => 'Nivel oro']
-            ];
-        @endphp
-    
-        <!-- Contenedor de insignias con separación -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 border rounded-lg shadow-sm">
-            @foreach ($insignias as $insignia)
-                <div class="cursor-pointer transition-transform duration-300 hover:scale-110 max-w-48 mx-auto" 
-                    onclick="openModal('{{ asset('images/' . $insignia['nombre'] . '.png') }}')">
-                    <img src="{{ asset('images/' . $insignia['nombre'] . '.png') }}" 
-                        alt="{{ $insignia['nombre'] }}" 
-                        class="w-full h-60 object-cover rounded-lg">
-                    <div class="mt-2 text-center text-sm font-medium text-gray-800">
-                        {{ $insignia['descripcion'] }}
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-    
-        <!-- Modal para imagen ampliada (implementado en vanilla JS) -->
-        <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-75 z-50">
-            <div class="relative bg-white p-4 rounded-lg">
-                <button type="button" onclick="closeModal()" class="absolute top-0 right-0 m-2 text-3xl text-gray-600">&times;</button>
-                <img id="modalImage" src="" alt="Insignia Ampliada" class="max-h-screen max-w-full rounded-lg">
-            </div>
+<!-- Disparo del Modal de Exito -->
+@if (session('showSuccessModal'))
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-80 text-center space-y-4">
+            <h3 class="text-2xl font-bold text-green-600">¡Éxito!</h3>
+            <p class="text-gray-600">Los datos de tu perfil han sido actualizados correctamente.</p>
+            <button onclick="closeSuccessModal()" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                {{ __('Entendido') }}
+            </button>
         </div>
     </div>
-    
-   
+
+    <script>
+        function closeSuccessModal() {
+            document.querySelector('.fixed').remove();
+        }
+    </script>
+@endif
+
+<!-- Área de Insignias -->
+<livewire:insignias modo="perfil" />
 
 @push('scripts')
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Si existe el mensaje 'status' en la sesión
-            @if(session('status') === 'profile-updated')
-                Swal.fire({
-                    title: '¡Éxito!',
-                    text: 'Los datos personales han sido actualizados correctamente.',
-                    icon: 'success',
-                    confirmButtonText: 'Entendido'
-                });
-            @endif
-        });
-    </script> 
-
     <script>
         function updateImagePreview(event) {
             const file = event.target.files[0];
@@ -224,16 +186,12 @@
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     document.getElementById('profileImagePreview').src = e.target.result;
-                    // Enviar el formulario automáticamente
                     document.getElementById('updateProfileImageForm').submit();
                 };
                 reader.readAsDataURL(file);
             }
         }
-    </script>
 
-    <script>
-        // Función para abrir el modal con la imagen seleccionada
         function openModal(imageUrl) {
             var modal = document.getElementById('modal');
             var modalImage = document.getElementById('modalImage');
@@ -242,19 +200,10 @@
             modal.classList.add('flex');
         }
 
-        // Función para cerrar el modal
         function closeModal() {
             var modal = document.getElementById('modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
-
-        // Cerrar el modal al hacer clic fuera de la caja central
-        window.addEventListener('click', function(e) {
-            var modal = document.getElementById('modal');
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
     </script>
 @endpush

@@ -79,4 +79,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->organizaciones()->exists();
     }
 
+    public function candidatos()
+    {
+        return $this->hasMany(Candidato::class, 'user_id');
+    }
+
+    public function vacantes()
+    {
+        return $this->hasMany(Vacante::class, 'user_id');
+    }
+
 }

@@ -30,7 +30,6 @@
     </div>
 
     <!-- Mensaje de error -->
-    <!-- Mensaje de error con diseño mejorado -->
     @if ($errorSeleccion)
         <div 
             x-data="{ show: true }" 
