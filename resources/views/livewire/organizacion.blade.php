@@ -366,14 +366,18 @@
                                                 <p class="text-xs text-gray-500">{{ $user->email }}</p>
                                             </div>
                                         </div>
-                                        <button 
-                                            wire:click="removeCollaborator({{ $user->id }})"
-                                            class="text-red-600 hover:text-red-800 flex items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                            </svg>
-                                            <span class="text-sm">Eliminar</span>
-                                        </button>
+                                        @auth
+                                            @if (auth()->user()->rol == 2) {{-- Solo Administradores --}}
+                                                <button 
+                                                    wire:click="removeCollaborator({{ $user->id }})"
+                                                    class="text-red-600 hover:text-red-800 flex items-center gap-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                    </svg>
+                                                    <span class="text-sm">Eliminar</span>
+                                                </button>
+                                            @endif
+                                        @endauth
                                     </div>
                                     @endforeach
                                 </div>
@@ -381,37 +385,39 @@
                         @endif
 
                         <!-- Botones -->
-                        <div class="flex justify-between items-center mt-8 space-x-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-center mt-8 space-y-3 sm:space-y-0 sm:space-x-4">
                             <!-- Crear o Actualizar -->
                             <button 
-                                class="p-3 rounded-full text-white w-full font-nexabold 
-                                {{ $miOrganizacion ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-amber-500 hover:bg-amber-600' }}" 
-                                wire:click="createOrAttachOrganization">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 inline-block mr-2">
+                                class="p-3 rounded-lg w-full sm:w-auto font-nexabold transition-all duration-300 ease-in-out 
+                                {{ $miOrganizacion ? 'bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300' : 'bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:ring-amber-300' }} text-white shadow-lg flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                                 </svg>                                  
                                 {{ isset($miOrganizacion->id) ? 'Actualizar' : 'Crear' }}
                             </button>
-                            
+
                             <!-- Botón Eliminar (solo visible en modo edición) -->
-                            @if ($miOrganizacion)
-                                <button 
-                                    class="p-3 bg-red-600 hover:bg-red-700 text-white rounded-full w-full font-nexabold" 
-                                    wire:click="deleteOrganization({{ $miOrganizacion->id }})"
-                                    onclick="confirm('¿Seguro de eliminar esta Organización?') || event.stopImmediatePropagation()" id="delete-btn-{{ $miOrganizacion->id }}"
-                                    class="bg-red-500 text-white px-4 py-2 rounded w-full md:w-auto">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 inline-block mr-2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                    </svg>             
-                                    Eliminar                                    
-                                </button>
-                            @endif
+                            @auth
+                                @if (auth()->user()->rol == 2) {{-- Solo Administradores --}}
+                                    @if ($miOrganizacion)
+                                        <button 
+                                            class="p-3 rounded-lg w-full sm:w-auto font-nexabold bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 text-white shadow-lg transition-all duration-300 ease-in-out flex items-center justify-center gap-2"
+                                            wire:click="deleteOrganization({{ $miOrganizacion->id }})"
+                                            onclick="confirm('¿Seguro de eliminar esta Organización?') || event.stopImmediatePropagation()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                            </svg>             
+                                            Eliminar                                    
+                                        </button>
+                                    @endif
+                                @endif
+                            @endauth
 
                             <!-- Salir -->
                             <button 
-                                class="p-3 bg-white border rounded-full w-full font-nexabold text-gray-600 hover:bg-gray-100" 
+                                class="p-3 rounded-lg w-full sm:w-auto font-nexabold bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 shadow-lg transition-all duration-300 ease-in-out flex items-center justify-center gap-2"
                                 wire:click.prevent="closeCreateModal">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 inline-block mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
                                 </svg>                                                 
                                 {{ __('Salir') }}

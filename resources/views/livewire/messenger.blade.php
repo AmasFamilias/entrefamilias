@@ -119,6 +119,7 @@
         const emojiToggle = document.getElementById('emoji-toggle');
         const emojiPickerContainer = document.getElementById('emoji-picker-container');
         const messageInput = document.getElementById('message');
+        const messageList = document.querySelector('.message-list');
 
         // Mostrar y ocultar el Emoji Picker
         emojiToggle.addEventListener('click', function () {
@@ -132,10 +133,19 @@
             @this.set('message', messageInput.value);
         });
 
+        // Permitir enviar el mensaje con Enter
+        messageInput.addEventListener('keydown', function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault(); // Evita el salto de línea en el textarea
+                @this.call('sendMessage'); // Llama al método de Livewire para enviar el mensaje
+            }
+        });
+
         // Escuchar el evento de Livewire para hacer scroll al final
         window.addEventListener('scrollToBottom', function () {
-            const messageList = document.querySelector('.message-list');
-            messageList.scrollTop = messageList.scrollHeight;
+            setTimeout(() => {
+                messageList.scrollTop = messageList.scrollHeight;
+            }, 100); // Pequeño retraso para asegurar que el mensaje nuevo se renderice
         });
 
         // Escuchar el evento de Livewire para limpiar el textarea
@@ -143,8 +153,9 @@
             borrartxt(); // Llama a la función borrartxt
         });
     });
+
     // Función para limpiar el textarea
     function borrartxt() {
         document.getElementById('message').value = ''; // Limpia el valor del textarea
     }
-</script>    
+</script>

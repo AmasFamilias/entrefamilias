@@ -64,18 +64,31 @@
                                             </span>
                                             @break
                                     @endswitch
-                                </div>
+                                </div> 
 
                                 <!-- Contenido de la vacante -->
                                 <div class="p-4">
                                     <h2 class="text-lg font-bold text-gray-800">
                                         {{ $vacante->titulo }}
                                     </h2>
-                                    <p class="text-gray-600 text-sm mt-2">
+                                    <p class="text-gray-600 text-sm mt-2 min-h-[60px] line-clamp-3">
                                         {{ Str::limit($vacante->descripcion, 150) }}
                                     </p>
 
+                                    <!-- Evento y Fecha -->
                                     <div class="mt-4">
+                                        @if($vacante->evento && $vacante->fecha_evento)
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8"/>
+                                                </svg>
+                                                Evento: {{ $vacante->fecha_evento->format('d/m/Y') }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="mt-auto pt-4">
                                         <a href="{{ route('vacantes.show', $vacante->id) }}" 
                                         class="block bg-indigo-500 hover:bg-indigo-600 transition-colors px-4 py-2 text-center text-white font-bold rounded-lg shadow">
                                             🔍 Ver Detalles

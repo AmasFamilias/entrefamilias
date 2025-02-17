@@ -159,7 +159,7 @@
                                 Editar
                             </a>
                             <button 
-                                wire:confirm="¿Estás seguro de querer eliminar esta oportunidad?\n\nEsta acción no se puede deshacer."
+                                wire:confirm="¿Estás seguro de querer eliminar este Anuncio, esta acción no se puede deshacer."
                                 wire:click="eliminarVacante({{ $vacante->id }})" 
                                 class="inline-flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors duration-200">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
