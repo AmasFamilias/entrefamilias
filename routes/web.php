@@ -49,6 +49,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //Notificaciones
-Route::get('/notificaciones', NotificacionController::class)->middleware(['auth', 'verified'])->name('notificaciones');
+// Route::get('/notificaciones', NotificacionController::class)->middleware(['auth', 'verified'])->name('notificaciones');
+Route::get('/notificaciones', [NotificacionController::class, '__invoke'])
+    ->middleware(['auth', 'verified'])
+    ->name('notificaciones.index');
+
+Route::post('/notificaciones/{id}/leer', [NotificacionController::class, 'marcarComoLeida'])
+    ->middleware(['auth'])
+    ->name('notificaciones.leer');
 
 require __DIR__.'/auth.php';

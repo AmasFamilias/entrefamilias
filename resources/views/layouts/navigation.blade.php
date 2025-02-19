@@ -56,7 +56,7 @@
                     </a>
 
                     <!-- Icono de Notificaciones Nuevas -->
-                    <a href="{{ route('notificaciones') }}" 
+                    <a href="{{ route('notificaciones.index') }}" 
                         class="relative inline-flex items-center mr-2 w-7 h-7 bg-slate-800 hover:bg-amber-500 rounded-md flex-col justify-center text-sm font-extrabold text-white">
 
                         <!-- Icono de Notificaciones Nuevas -->
@@ -263,7 +263,7 @@
 
                 <!-- Icono de Notificaciones Nuevas -->
                 <div class="flex gap-2 items-center p-3">
-                        <a href="{{ route('notificaciones') }}" 
+                        <a href="{{ route('notificaciones.index') }}" 
                         class="relative inline-flex items-center mr-2 w-7 h-7 bg-slate-800 hover:bg-amber-500 rounded-md flex-col justify-center text-sm font-extrabold text-white">
 
                         <!-- Icono de Notificaciones Nuevas -->

@@ -36,8 +36,8 @@ class PostularVacante extends Component
             'cv' => 'POSTULADO'
         ]);
 
-        // Crear notificación y enviar el email
-        $this->vacante->reclutador->notify(new NuevoCandidato($this->vacante->id, $this->vacante->titulo, auth()->user()->id));
+        // Crear notificación y enviar el email 
+        $this->vacante->reclutador->notify(new NuevoCandidato($this->vacante->id, $this->vacante->titulo, auth()->user()->id, $this->vacante->imagen));
 
         // Mostrar al Usuario un mensaje de OK
         session()->flash('mensaje', '¡Gracias por ponerte en contacto con nosotros! Pronto estaremos en comunicación contigo.');

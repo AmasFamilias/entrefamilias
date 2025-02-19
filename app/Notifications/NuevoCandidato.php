@@ -14,11 +14,12 @@ class NuevoCandidato extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($id_vacante, $nombre_vacante, $usuario_id)
+    public function __construct($id_vacante, $nombre_vacante, $usuario_id, $imagen_vacante)
     {
         $this->id_vacante = $id_vacante;
         $this->nombre_vacante = $nombre_vacante;
         $this->usuario_id = $usuario_id;
+        $this->imagen_vacante = $imagen_vacante;
     }
 
     /**
@@ -36,13 +37,12 @@ class NuevoCandidato extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = url('/notificaciones');
-
         return (new MailMessage)
-                    ->line('Has recibido un nuevo Contacto en tu Anuncio.')
-                    ->line('El Anuncio es: ' . $this->nombre_vacante)
-                    ->action('Ver Notificaciones', $url)
-                    ->line('Gracias por utilizar Familia x Familia');
+        ->subject('📢 Nuevo Contacto en tu Anuncio')
+        ->markdown('emails.nuevo_candidato', [
+            'nombre_vacante' => $this->nombre_vacante,
+            'imagen_vacante' => $this->imagen_vacante
+        ]);
     }
 
     /**
@@ -57,7 +57,8 @@ class NuevoCandidato extends Notification
         return [
             'id_vacante' => $this->id_vacante,
             'nombre_vacante' => $this->nombre_vacante,
-            'usuario_id' => $this->usuario_id
+            'usuario_id' => $this->usuario_id,
+            'imagen_vacante' => $this->imagen_vacante,
        ];
     } 
 }

@@ -6,18 +6,24 @@ use Illuminate\Http\Request;
 
 class NotificacionController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request)
+    public function __invoke()
     {
-        $notificaciones = auth()->user()->unreadNotifications;
-
-        //Limpiar notificaciones
-        auth()->user()->unreadNotifications->markAsRead(); 
+        $usuario = auth()->user();
 
         return view('notificaciones.index', [
-            'notificaciones' => $notificaciones
+            'notificacionesNoLeidas' => $usuario->unreadNotifications,
+            'notificacionesLeidas' => $usuario->readNotifications()->paginate(10)
         ]);
+    }
+
+    public function marcarComoLeida($id)
+    {
+        $notificacion = auth()->user()->notifications()->find($id);
+
+        if ($notificacion) {
+            $notificacion->markAsRead();
+        }
+
+        return redirect()->route('notificaciones.index')->with('success', 'Notificación marcada como leída.');
     }
 }
