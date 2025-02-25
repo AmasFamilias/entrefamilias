@@ -26,7 +26,7 @@ class HomeVacantes extends Component
         })->get();
 
         if (!$this->termino && !$this->categoria) {
-            // Home sin filtros: 3 vacantes por categoría
+            // Home sin filtros: 4 vacantes por categoría
             $vacantesPorCategoria = [];
 
             foreach ($categorias as $categoria) {

@@ -36,14 +36,16 @@ class NuevoMensaje extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = url('/notificaciones-mensajes');
-
         return (new MailMessage)
-            ->subject('Nuevo Mensaje en el Anuncio ' . $this->vacante->titulo)
-            ->line($this->sender->name . ' te ha enviado un mensaje en el Anuncio ' . $this->vacante->titulo)
-            ->line('Mensaje: ' . $this->mensaje->message)
-            ->action('Ver Mensajes', $url)
-            ->line('Gracias por utilizar Familia x Familia.');
+            ->subject('📩 Nuevo Mensaje en tu Anuncio')
+            ->markdown('emails.nuevo_mensaje', [
+                'nombre_vacante' => $this->vacante->titulo,
+                'imagen_vacante' => $this->vacante->imagen,
+                'nombre_remitente' => $this->sender->name,
+                'foto_remitente' => $this->sender->profile_image,
+                'mensaje' => $this->mensaje->message,
+                'url' => url('/notificaciones-mensajes')
+            ]);
     }
 
     public function toDatabase($notifiable)

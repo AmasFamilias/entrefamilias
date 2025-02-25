@@ -18,7 +18,9 @@ class CrearVacante extends Component
     public $descripcion;
     public $descrip_larga;
     public $presencial;
+    public $lugar;  
     public $virtual;
+    public $enlace; 
     public $evento;
     public $fecha_evento;
     public $categoria_id;
@@ -54,6 +56,8 @@ class CrearVacante extends Component
         'etiquetas.*' => 'string|max:20',
         'nuevaEtiqueta' => 'nullable|string|max:20',
         'imagen' => 'nullable|image|max:3072|mimes:jpeg,png,jpg',
+        'enlace' => 'nullable|string|max:255|url', 
+        'lugar' => 'nullable|string|max:255', 
     ];
 
     public function mount()
@@ -61,7 +65,6 @@ class CrearVacante extends Component
         $this->entidad = auth()->user()->name;
         $this->orgexistentes = auth()->user()->organizaciones()->get();
         $this->selectedOrganizacion = $this->orgexistentes->first()->id ?? null;
-        $this->etiquetas = [];
     }
 
     public function crearVacante()
@@ -97,7 +100,9 @@ class CrearVacante extends Component
             'tipoanuncio_id' => $datos['tipoanuncio_id'],
             'ultimo_dia' => $datos['ultimo_dia'],
             'etiquetas' => !empty($this->etiquetas) ? json_encode($this->etiquetas) : json_encode([]), 
-            'imagen' => $datos['imagen'], // Usar la ruta modificada
+            'imagen' => $datos['imagen'],
+            'enlace' => $datos['enlace'] ?? null,
+            'lugar' => $datos['lugar'] ?? null, 
             'user_id' => auth()->id(),
         ]);
         
@@ -126,12 +131,20 @@ class CrearVacante extends Component
     public function agregarEtiqueta()
     {
         $this->nuevaEtiqueta = trim($this->nuevaEtiqueta);
-        
-        if (!empty(trim($this->nuevaEtiqueta)) && count($this->etiquetas) < 8) {
-            $this->etiquetas[] = trim($this->nuevaEtiqueta);
-            $this->nuevaEtiqueta = '';
+    
+        if (!empty($this->nuevaEtiqueta) && count($this->etiquetas) < 8) {
+            $this->etiquetas[] = $this->nuevaEtiqueta;
+            $this->dispatch('input-reset'); 
         }
-        $this->resetValidation('nuevaEtiqueta');
+    
+        $this->reset('nuevaEtiqueta'); 
+    }
+    
+    public function updatedNuevaEtiqueta()
+    {
+        if ($this->nuevaEtiqueta === '') {
+            $this->reset('nuevaEtiqueta'); // Garantiza que se limpie bien
+        }
     }
 
     public function eliminarEtiqueta($index)

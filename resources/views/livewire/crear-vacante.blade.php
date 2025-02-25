@@ -8,7 +8,7 @@
         <h2 class="text-2xl font-semibold text-gray-800">PUBLICAR ANUNCIO</h2>
     </div>
 
-    <!-- Contenedor de los Campos del Formulario -->
+    <!-- Contenedor de los Campos del Formulario --> 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-4">
 
         <!-- Título del Anuncio -->
@@ -42,7 +42,6 @@
             @endif
         @endauth
 
-
         <!-- Descripciones -->
         <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Descripción Breve -->
@@ -75,8 +74,8 @@
             <p class="text-sm text-gray-500">
                 Especifica si este anuncio requiere que los participantes estén presentes físicamente.
             </p>
-            <select wire:model="presencial" id="presencial" 
-            class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors duration-200 hover:border-indigo-400">
+            <select wire:model.live="presencial" id="presencial" 
+                class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors duration-200 hover:border-indigo-400">
                 <option value="">--Selecciona una opción--</option>
                 <option value="1">Sí</option>
                 <option value="0">No</option>
@@ -84,14 +83,32 @@
             <x-input-error :messages="$errors->get('presencial')" class="mt-2" />
         </div>
 
-        <!-- Virtualidad -->
+        <!-- Si es presencial, solicitar la dirección -->
+        @if ($presencial === '1') 
+            <div class="mt-4">
+                <x-input-label for="lugar" :value="__('Dirección del Evento')" class="mb-2" />
+                <p class="text-sm text-gray-500">
+                    Ingresa la dirección donde se realizará el evento.
+                </p>
+                <x-text-input 
+                    id="lugar" 
+                    class="block mt-1 w-full" 
+                    type="text" 
+                    wire:model="lugar" 
+                    placeholder="Ejemplo: Calle 123, Ciudad"
+                />
+                <x-input-error :messages="$errors->get('lugar')" class="mt-2" />
+            </div>
+        @endif
+
+        <!-- Virtual -->
         <div>
             <x-input-label for="virtual" :value="__('¿Es Virtual?')" class="mb-2" />
             <p class="text-sm text-gray-500">
                 Indica si este anuncio corresponde a una actividad que se realizará en línea.
             </p>
-            <select wire:model="virtual" id="virtual" 
-            class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors duration-200 hover:border-indigo-400">
+            <select wire:model.live="virtual" id="virtual" 
+                class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors duration-200 hover:border-indigo-400">
                 <option value="">--Selecciona una opción--</option>
                 <option value="1">Sí, es Virtual</option>
                 <option value="0">No, es Presencial</option>
@@ -100,11 +117,30 @@
             <x-input-error :messages="$errors->get('virtual')" class="mt-2" />
         </div>
 
+        <!-- Si es virtual o híbrido, solicitar el enlace -->
+        @if ($virtual === '1' || $virtual === '2') 
+            <div class="mt-4">
+                <x-input-label for="enlace" :value="__('Enlace de Acceso')" class="mb-2" />
+                <p class="text-sm text-gray-500">
+                    Ingresa el enlace donde se llevará a cabo la actividad virtual.
+                </p>
+                <x-text-input 
+                    id="enlace" 
+                    class="block mt-1 w-full" 
+                    type="url" 
+                    wire:model="enlace" 
+                    placeholder="Ejemplo: https://meet.google.com/..."
+                />
+                <x-input-error :messages="$errors->get('enlace')" class="mt-2" />
+            </div>
+        @endif
+
         <!-- Indicar si es un Evento o no -->
         <div>
             <x-input-label for="evento" :value="__('¿Es un Evento?')" class="mb-2" />
-            <p class="text-sm text-gray-500">
-                Indica si el anuncio es para un evento.
+            <p class="text-sm text-justify text-gray-500">
+                Indica si es un evento (Una actividad programada que ocurre en un momento y lugar específicos. 
+                Los eventos pueden ser conferencias, conciertos, ferias, o reuniones), y siempre están asociados con una fecha, una hora y un lugar determinados.
             </p>
             <select wire:model.live="evento" id="evento"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200 hover:border-indigo-400">
@@ -177,9 +213,12 @@
                 wire:model="nuevaEtiqueta"
                 wire:keydown.space.prevent="agregarEtiqueta"
                 wire:keydown.enter.prevent="agregarEtiqueta"
+                dusk="nuevaEtiqueta"
+                x-data
+                x-init="$wire.on('input-reset', () => { $el.value = '' })"
                 class="w-full border border-gray-300 rounded-lg p-2 text-gray-800 focus:ring focus:ring-indigo-300 outline-none"
-            >
-        
+            />
+
             <!-- Mostrar etiquetas existentes -->
             <div class="flex flex-wrap gap-2 mb-2 p-2 border border-gray-300 rounded-lg overflow-y-auto max-h-32">
                 @forelse($etiquetas as $index => $etiqueta)

@@ -10,12 +10,13 @@ class ConversacionController extends Controller
 {
     public function index()
     {
-        // Obtener las vacantes con las que el usuario ha interactuado
-        $vacantes = Vacante::whereHas('mensajes', function($query) {
-            $query->where('sender_id', auth()->id())
-                  ->orWhere('receiver_id', auth()->id());
-        })->with('mensajes')->get();
+        $usuario = auth()->user();
 
-        return view('conversaciones.index', compact('vacantes'));
+        $vacantes = Vacante::whereHas('mensajes', function($query) use ($usuario) {
+            $query->where('sender_id', $usuario->id)
+                ->orWhere('receiver_id', $usuario->id);
+        })->with(['mensajes.sender', 'mensajes.receiver'])->get();
+
+        return view('conversaciones.index', compact('vacantes', 'usuario'));
     }
 }

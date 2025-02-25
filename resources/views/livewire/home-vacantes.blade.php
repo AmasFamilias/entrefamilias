@@ -1,7 +1,7 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-4">
         @if (!$paginacion)
-            @foreach ($categorias as $categoria)
+            @foreach ($categorias as $categoria) 
                 <div class="mb-12 bg-white shadow-sm rounded-lg p-6">
                     <!-- ENCABEZADO DE LA CATEGORÍA -->
                     <div class="flex justify-between items-center">

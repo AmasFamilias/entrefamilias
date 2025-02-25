@@ -8,7 +8,9 @@ Has recibido un nuevo contacto en tu anuncio:
 **Anuncio:** {{ $nombre_vacante }}
 
 📷 **Imagen del Anuncio:**  
-<img src="{{ asset('storage/vacantes/' . $imagen_vacante) }}" alt="Imagen Vacante" style="max-width: 300px; border-radius: 10px;">
+<img src="{{ $imagen_vacante ? asset('storage/vacantes/' . $imagen_vacante) : asset('images/default-vacante.png') }}" 
+    alt="Imagen Vacante" 
+    style="max-width: 300px; border-radius: 10px;">
 
 @component('mail::button', ['url' => url('/notificaciones')])
 Ver Notificaciones
@@ -16,4 +18,4 @@ Ver Notificaciones
 
 Gracias por utilizar **Entre Familias**.
 
-@endcomponent
+@endcomponent  
