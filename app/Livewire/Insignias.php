@@ -2,10 +2,12 @@
 
 namespace App\Livewire; 
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Mensaje;
 use Livewire\Component;
 use App\Models\Candidato;
-use App\Models\User;
+use App\Models\Vacante;
 use Illuminate\Support\Facades\Auth;
 
 class Insignias extends Component
@@ -30,6 +32,11 @@ class Insignias extends Component
         $vacantesPublicadas = $user->vacantes()->count(); 
 
         $this->insignias = [
+            [
+                'nombre' => 'registrado',
+                'descripcion' => '¡Bienvenido a la comunidad! Esta insignia destaca tu inicio en la plataforma y el comienzo de grandes oportunidades.',
+                'activo' => $user->exists, 
+            ],            
             [
                 'nombre' => 'activo',
                 'descripcion' => 'Tu perfil está en movimiento, ¡Ya has sido contactado!',
@@ -64,6 +71,11 @@ class Insignias extends Component
                 'nombre' => 'oro',
                 'descripcion' => 'Eres una referencia en la Plataforma, ¡Tu trayectoria brilla con oro!',
                 'activo' => $vacantesPublicadas >= 20,
+            ],
+            [
+                'nombre' => 'heroe',
+                'descripcion' => 'Eres un héroe al responder una petición de ayuda.',
+                'activo' => Vacante::where('user_id', $user->id)->where('tipoanuncio_id', 2)->exists(),
             ],
         ];
     }

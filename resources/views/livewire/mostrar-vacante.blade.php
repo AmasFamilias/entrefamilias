@@ -143,36 +143,54 @@
                 <livewire:postular-vacante :vacante="$vacante" />
             @endcan
 
-            <!-- Información del Usuario -->
+            <!-- Información del Usuario u Organización -->
             <div class="text-center">
-                <img class="w-20 h-20 rounded-full mx-auto" 
-                    src="{{ $vacante->users?->profile_photo_url }}" 
-                    alt="Foto de {{ $vacante->users?->name ?? 'Usuario desconocido' }}">
-
-                <h3 class="text-lg font-bold mt-3">{{ $vacante->users?->name ?? 'Usuario desconocido' }}</h3>
-                <p class="text-gray-600">{{ $vacante->entidad }}</p>
-
-                <!-- Organización -->
                 @if($vacante->organizacion_id)
-                    <div class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                d="M3 10h11M9 21V3m5 18h5m-2-2v4"/>
-                        </svg>
-                        Organización: {{ $vacante->organizacion->nombre }}
+                    <!-- Información de la Organización -->
+                    <img class="w-20 h-20 rounded-full mx-auto" 
+                        src="{{ $vacante->organizacion->imagen ? asset('storage/' . $vacante->organizacion->imagen) : asset('images/perfil_ong.png') }}" 
+                        alt="Logo de {{ $vacante->organizacion->nombre }}">
+
+                    <h3 class="text-lg font-bold mt-3">{{ $vacante->organizacion->nombre }}</h3>
+                    @if($vacante->organizacion?->descripcion)
+                        <div class="mt-6 bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-lg shadow-sm">
+                            <h4 class="text-indigo-700 font-semibold text-lg mb-2">¿Quiénes Somos?</h4>
+                            <p class="text-gray-700 text-justify leading-relaxed">{{ $vacante->organizacion->descripcion }}</p>
+                        </div>
+                    @endif
+
+                    @if($vacante->organizacion->web)
+                        <a href="{{ Str::startsWith($vacante->organizacion->web, ['http://', 'https://']) ? $vacante->organizacion->web : 'https://' . $vacante->organizacion->web }}" 
+                        target="_blank" 
+                        class="mt-2 inline-block text-indigo-600 hover:text-indigo-800 text-sm font-semibold">
+                            Visitar sitio web
+                        </a>
+                    @endif
+
+
+                    <p class="text-gray-500 mt-3 text-sm">Creado por: {{ $vacante->entidad }}</p>
+
+                @else
+                    <!-- Información del Usuario -->
+                    <div class="text-center">
+                        <img class="w-20 h-20 rounded-full mx-auto" 
+                            src="{{ $vacante->users?->profile_photo_url }}" 
+                            alt="Foto de {{ $vacante->users?->name ?? 'Usuario desconocido' }}">
+
+                        <h3 class="text-lg font-bold mt-3">{{ $vacante->users?->name ?? 'Usuario desconocido' }}</h3>
                     </div>
+
+                    <!-- Sobre mí -->
+                    @if($vacante->users?->sobremi)
+                        <div class="mt-6 bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-lg shadow-sm">
+                            <h4 class="text-indigo-700 font-semibold text-lg mb-2">Sobre mí</h4>
+                            <p class="text-gray-700 text-justify leading-relaxed">{{ $vacante->users?->sobremi }}</p>
+                        </div>
+                    @endif
+
+                    <livewire:insignias modo="vacante" propietario_id="{{ $vacante->user_id }}" />
                 @endif
             </div>
-
-            <!-- Sobre mí -->
-            @if($vacante->users?->sobremi)
-                <div class="mt-6 bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-lg shadow-sm">
-                    <h4 class="text-indigo-700 font-semibold text-lg mb-2">Sobre mí</h4>
-                    <p class="text-gray-700 text-justify leading-relaxed">{{ $vacante->users?->sobremi }}</p>
-                </div>
-            @endif
-
-            <livewire:insignias modo="vacante" propietario_id="{{ $vacante->user_id }}" />
 
             <!-- Publicado hace -->
             <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
@@ -181,7 +199,7 @@
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 Publicado hace: {{ $vacante->created_at->diffForHumans() }}
-            </div>            
+            </div>
         </div>
     </div>    
 </div>  

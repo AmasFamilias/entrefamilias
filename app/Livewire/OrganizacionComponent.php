@@ -21,7 +21,7 @@ class OrganizacionComponent extends Component
     public $imagen = null;
     public $modal = false;
     public $siActualiza = false;
-    public $miOrganizacion = null;
+    public $miOrganizacion = null; 
     public $currentImage = null;  
 
     public function rules()
