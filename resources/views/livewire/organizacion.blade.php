@@ -433,10 +433,10 @@
 {{-- Modal para Invitar --}}
 @if ($showInviteModal)
 <div class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col sm:max-w-lg">
         <!-- Header -->
         <div class="p-6 border-b border-gray-200 flex items-center justify-between">
-            <h3 class="text-2xl font-bold text-gray-900">Invitar Colaboradores</h3>
+            <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Invitar Colaboradores</h3>
             <button wire:click="closeInviteModal" class="text-gray-500 hover:text-gray-700">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -447,12 +447,12 @@
         <!-- Contenido -->
         <div class="p-6 flex-1 overflow-y-auto">
             <!-- Buscador -->
-            <div class="relative mb-6">
+            <div class="relative mb-4">
                 <input 
                     type="text" 
                     wire:model.live="search"
                     wire:keydown.enter="searchUsers"
-                    placeholder="Escribe para buscar..."
+                    placeholder="Buscar usuario..."
                     class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
                 >
                 <button 
@@ -468,26 +468,26 @@
             <div class="space-y-4">
                 @forelse($users as $user)
                 <div class="group flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50 transition-colors">
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
                         <img src="{{ $user->profile_photo_url }}" 
                              class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm">
                         <div>
-                            <h4 class="font-semibold text-gray-900">{{ $user->name }}</h4>
-                            <p class="text-sm text-gray-600">{{ $user->email }}</p>
+                            <h4 class="text-sm sm:text-base font-semibold text-gray-900">{{ $user->name }}</h4>
+                            <p class="text-xs sm:text-sm text-gray-600">{{ $user->email }}</p>
                         </div>
                     </div>
                     <button 
                         wire:click="inviteUser({{ $user->id }})"
-                        class="flex items-center space-x-2 px-4 py-2 bg-white border border-indigo-500 text-indigo-600 rounded-full hover:bg-indigo-500 hover:text-white transition-colors">
+                        class="flex items-center space-x-2 px-3 sm:px-4 py-2 bg-white border border-indigo-500 text-indigo-600 rounded-full hover:bg-indigo-500 hover:text-white transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                         </svg>
-                        <span class="text-sm font-medium">Invitar</span>
+                        <span class="text-xs sm:text-sm font-medium">Invitar</span>
                     </button>
                 </div>
                 @empty
-                <div class="p-8 text-center text-gray-500">
-                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-6 sm:p-8 text-center text-gray-500">
+                    <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
                     </svg>
                     No se encontraron usuarios
@@ -501,7 +501,7 @@
             <div class="flex justify-end">
                 <button 
                     wire:click="closeInviteModal"
-                    class="px-6 py-2 text-gray-600 hover:text-gray-800 font-medium rounded-lg">
+                    class="px-4 sm:px-6 py-2 text-gray-600 hover:text-gray-800 font-medium rounded-lg">
                     Cerrar
                 </button>
             </div>

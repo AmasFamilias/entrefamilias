@@ -9,6 +9,9 @@ use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NuevaOrganizacion;
+use App\Notifications\InvitarColaborador;
+use Illuminate\Notifications\AnonymousNotifiable;
 
 class OrganizacionComponent extends Component 
 {
@@ -106,8 +109,15 @@ class OrganizacionComponent extends Component
                 ]);
                 
                 $organizacion->users()->attach(auth()->id(), [
-                    'role' => 'administrador' // Cambiado de 'colaborador'
+                    'role' => 'administrador' 
                 ]);
+
+                // Obtener correo del .env
+                $correoAdmin = env('MAIL_USERNAME');
+
+                // Enviar la notificación al correo configurado en .env
+                (new AnonymousNotifiable)->route('mail', $correoAdmin)
+                ->notify(new NuevaOrganizacion($organizacion, auth()->user()));
 
                 // $organizacion->users()->attach(auth()->id());
                 session()->flash('success', 'Organización creada exitosamente.');
@@ -166,7 +176,7 @@ class OrganizacionComponent extends Component
     public function openInvitarModal($orgId)
     {
         $this->selectedOrg = $orgId;
-        $this->miOrganizacion = Organizacion::find($orgId); // Agregar esta línea
+        $this->miOrganizacion = Organizacion::find($orgId); 
         $this->showInviteModal = true;
         $this->searchUsers(); // Cargar resultados iniciales
     }
@@ -195,7 +205,7 @@ class OrganizacionComponent extends Component
     {
         $this->showInviteModal = false;
     }
-    
+
     // Controla para invitar al Usuario
     public function inviteUser($userId)
     {
@@ -204,17 +214,25 @@ class OrganizacionComponent extends Component
             
             if (!$org->users()->where('user_id', $userId)->exists()) {
                 $org->users()->attach($userId, ['role' => 'colaborador']);
+
+                // Enviar notificación al usuario invitado
+                $user = User::findOrFail($userId); 
+                $user->notify(new InvitarColaborador($org, auth()->user()));
+
+                // Notificación en sesión
                 session()->flash('success', 'Usuario invitado exitosamente');
             } else {
                 session()->flash('warning', 'El usuario ya pertenece a esta organización');
             }
-            
-            $this->closeInviteModal();
-            
+
+            // Cerrar el modal automáticamente
+            $this->showInviteModal = false;
+
         } catch (\Exception $e) {
             session()->flash('error', 'Error al invitar: ' . $e->getMessage());
         }
     }
+
 
     // Agregar este método para eliminar colaboradores
     public function removeCollaborator($userId)
