@@ -450,8 +450,8 @@
             <div class="relative mb-4">
                 <input 
                     type="text" 
-                    wire:model.live="search"
-                    wire:keydown.enter="searchUsers"
+                    wire:model.debounce.500ms="search"
+                    wire:keydown.debounce.500ms="searchUsers"
                     placeholder="Buscar usuario..."
                     class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
                 >
@@ -464,36 +464,56 @@
                 </button>
             </div>
 
+            <!-- Mensaje antes de buscar -->
+            @if(!$search)
+            <div class="p-6 sm:p-8 text-center text-gray-500">
+                <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 16h8M8 12h4m4 0h4m-8-4h8m-8 8h8m-8-4h8m-8-4h4m4 0h4m-8-4h8m-8 8h8m-8-4h8"/>
+                </svg>
+                <p>🔍 Escribe un nombre o correo para buscar usuarios.</p>
+            </div>
+            @else
+            <!-- Indicador de carga -->
+            <div wire:loading wire:target="searchUsers" class="p-6 sm:p-8 text-center text-gray-500">
+                <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto animate-spin text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="4"></circle>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M4 12a8 8 0 018-8"></path>
+                </svg>
+                <p>Buscando usuarios...</p>
+            </div>
+
             <!-- Lista de Usuarios -->
-            <div class="space-y-4">
+            <div class="space-y-4" wire:loading.remove>
                 @forelse($users as $user)
-                <div class="group flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50 transition-colors">
-                    <div class="flex items-center space-x-3 sm:space-x-4">
-                        <img src="{{ $user->profile_photo_url }}" 
-                             class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm">
-                        <div>
-                            <h4 class="text-sm sm:text-base font-semibold text-gray-900">{{ $user->name }}</h4>
-                            <p class="text-xs sm:text-sm text-gray-600">{{ $user->email }}</p>
+                    <div class="group flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50 transition-colors">
+                        <div class="flex items-center space-x-3 sm:space-x-4">
+                            <img src="{{ $user->profile_photo_url }}" 
+                                class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm">
+                            <div>
+                                <h4 class="text-sm sm:text-base font-semibold text-gray-900">{{ $user->name }}</h4>
+                                <p class="text-xs sm:text-sm text-gray-600">{{ $user->email }}</p>
+                            </div>
                         </div>
+                        <button 
+                            wire:click="inviteUser({{ $user->id }})"
+                            class="flex items-center space-x-2 px-3 sm:px-4 py-2 bg-white border border-indigo-500 text-indigo-600 rounded-full hover:bg-indigo-500 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm font-medium">Invitar</span>
+                        </button>
                     </div>
-                    <button 
-                        wire:click="inviteUser({{ $user->id }})"
-                        class="flex items-center space-x-2 px-3 sm:px-4 py-2 bg-white border border-indigo-500 text-indigo-600 rounded-full hover:bg-indigo-500 hover:text-white transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-                        </svg>
-                        <span class="text-xs sm:text-sm font-medium">Invitar</span>
-                    </button>
-                </div>
                 @empty
-                <div class="p-6 sm:p-8 text-center text-gray-500">
-                    <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
-                    </svg>
-                    No se encontraron usuarios
-                </div>
+                    <!-- Mensaje cuando no hay resultados -->
+                    <div class="p-6 sm:p-8 text-center text-gray-500">
+                        <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                        </svg>
+                        ⚠️ No se encontraron usuarios con ese criterio.
+                    </div>
                 @endforelse
             </div>
+            @endif
         </div>
 
         <!-- Footer -->

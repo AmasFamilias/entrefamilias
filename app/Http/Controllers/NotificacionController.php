@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class NotificacionController extends Controller
 {
     public function __invoke()
-    {
+    { 
         $usuario = auth()->user();
 
         return view('notificaciones.index', [
@@ -16,7 +16,7 @@ class NotificacionController extends Controller
         ]);
     }
 
-    public function marcarComoLeida($id)
+    public function marcarComoLeida(Request $request, $id)
     {
         $notificacion = auth()->user()->notifications()->find($id);
 
@@ -24,6 +24,6 @@ class NotificacionController extends Controller
             $notificacion->markAsRead();
         }
 
-        return redirect()->route('notificaciones.index')->with('success', 'Notificación marcada como leída.');
+        return redirect($request->input('redirect_to', route('notificaciones.index')));
     }
 }

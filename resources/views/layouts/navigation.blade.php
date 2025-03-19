@@ -67,13 +67,18 @@
                         </svg>
 
                         <!-- Contador de Notificaciones Nuevas -->
-                        @if(Auth::user()->unreadNotifications->where('type', 'App\Notifications\NuevoCandidato')->count() > 0)
+                        @php
+                            $totalNotificaciones = Auth::user()->unreadNotifications
+                                ->whereIn('type', ['App\Notifications\NuevoCandidato', 'App\Notifications\InvitarColaborador'])
+                                ->count();
+                        @endphp
+
+                        @if($totalNotificaciones > 0)
                             <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                                {{ Auth::user()->unreadNotifications->where('type', 'App\Notifications\NuevoCandidato')->count() }}
+                                {{ $totalNotificaciones }}
                             </span>
                         @endif
                     </a>
-
 
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">

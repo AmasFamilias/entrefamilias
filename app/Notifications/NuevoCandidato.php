@@ -55,6 +55,7 @@ class NuevoCandidato extends Notification
     public function toDatabase( $notifiable)
     {
         return [
+            'tipo' => 'candidato',
             'id_vacante' => $this->id_vacante,
             'nombre_vacante' => $this->nombre_vacante,
             'usuario_id' => $this->usuario_id,

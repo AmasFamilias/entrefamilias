@@ -178,7 +178,7 @@ class OrganizacionComponent extends Component
         $this->selectedOrg = $orgId;
         $this->miOrganizacion = Organizacion::find($orgId); 
         $this->showInviteModal = true;
-        $this->searchUsers(); // Cargar resultados iniciales
+        $this->users = collect(); 
     }
 
     public function searchUsers()
@@ -203,7 +203,7 @@ class OrganizacionComponent extends Component
     // Cierra el Modal de Invitar
     public function closeInviteModal()
     {
-        $this->showInviteModal = false;
+        $this->reset('showInviteModal');
     }
 
     // Controla para invitar al Usuario
@@ -226,7 +226,7 @@ class OrganizacionComponent extends Component
             }
 
             // Cerrar el modal automáticamente
-            $this->showInviteModal = false;
+            $this->reset('showInviteModal');
 
         } catch (\Exception $e) {
             session()->flash('error', 'Error al invitar: ' . $e->getMessage());

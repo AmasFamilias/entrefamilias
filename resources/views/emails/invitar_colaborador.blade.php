@@ -11,7 +11,7 @@ A partir de ahora, podrás publicar anuncios en nombre de la organización.
 
 Para crear tu primer anuncio, sigue este enlace:
 
-@component('mail::button', ['url' => url('/anuncios/crear')])
+@component('mail::button', ['url' => url('/anuncio/create')])
 Crear Anuncio
 @endcomponent
 

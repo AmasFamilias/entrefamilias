@@ -50,6 +50,7 @@ class InvitarColaborador extends Notification
     public function toDatabase($notifiable)
     {
         return [
+            'tipo' => 'invitacion',
             'organizacion_id' => $this->organizacion->id,
             'organizacion_nombre' => $this->organizacion->nombre,
             'admin_nombre' => $this->admin->name,
