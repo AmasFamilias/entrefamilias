@@ -5,16 +5,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Familia x Familia') }}</title>
+        <title>{{ config('app.name', 'Entre Familias') }}</title>
 
         <!-- Fonts -->
         <link href="{{ asset('css/fonts.css') }}" rel="stylesheet">
         
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
 
+        @if(request()->cookie('cookie_consent') === 'accepted')
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2V3V54Z06C"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-2V3V54Z06C');
+        </script>
+        @endif
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -38,6 +49,13 @@
         <!-- Invocando el Footer -->
         @include('layouts.footer')
 
+        <!-- Componente de Cookies -->
+        @livewire('cookie-banner')
+
+        <!-- Componente de Normas de Comunidad -->
+        @livewire('normas-modal')
+
+        <!-- Scripts -->
         @livewireScripts
         @stack('scripts')
     </body>

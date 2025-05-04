@@ -7,5 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.querySelector('#message');
 });
 
-window.Alpine = Alpine;
-Alpine.start();
+// Solo inicializamos Alpine si no ha sido inicializado por Livewire
+if (!window.Alpine) {
+    window.Alpine = Alpine;
+    Alpine.start();
+}

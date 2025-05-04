@@ -16,11 +16,22 @@
 
                     <div class="font-nexabold flex justify-center items-center py-6 sm:py-8">
                         @if (auth()->check())
-                            <a href="{{ route('vacantes.create') }}" 
-                               class="bg-indigo-500 hover:bg-indigo-600 transition-transform duration-300 px-6 py-3 
-                               rounded-lg text-white uppercase text-lg sm:text-xl md:text-2xl shadow-md transform hover:scale-105">
-                                ¡Comienza tu Anuncio Ahora!
-                            </a>
+                            <div 
+                                x-data="{ 
+                                    abrirNormas() { 
+                                        Livewire.dispatch('abrirNormas', {
+                                            ruta: '{{ route('vacantes.create') }}'
+                                        });
+                                    } 
+                                }">
+                                <a 
+                                    href="#"
+                                    @click.prevent="abrirNormas"
+                                        class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg hover:from-amber-600 hover:to-amber-700 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                                    >
+                                    ¡Comienza tu Anuncio Ahora!
+                                </a>
+                            </div>
                         @else
                             <a href="{{ route('register') }}" 
                                class="bg-amber-500 hover:bg-amber-600 transition-transform duration-300 px-6 py-3 
@@ -49,11 +60,22 @@
 
                     <div class="flex justify-center items-center py-4">
                         @if (auth()->check())
-                            <a href="{{ route('vacantes.create') }}" 
-                               class="bg-indigo-500 hover:bg-indigo-600 transition-transform duration-300 px-4 py-2 
-                               rounded-lg text-white font-bold uppercase text-sm shadow-md transform hover:scale-105">
-                                ¡Comienza tu Anuncio Ahora!
-                            </a>
+                            <div 
+                                x-data="{ 
+                                    abrirNormas() { 
+                                        Livewire.dispatch('abrirNormas', {
+                                            ruta: '{{ route('vacantes.create') }}'
+                                        });
+                                    } 
+                                }">
+                                <a 
+                                    href="#"
+                                    @click.prevent="abrirNormas"
+                                        class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg hover:from-amber-600 hover:to-amber-700 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                                    >
+                                    ¡Comienza tu Anuncio Ahora!
+                                </a>
+                            </div>
                         @else
                             <a href="{{ route('register') }}" 
                                class="bg-amber-500 hover:bg-amber-600 transition-transform duration-300 px-4 py-2 

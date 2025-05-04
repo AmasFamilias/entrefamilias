@@ -184,6 +184,15 @@
         <!-- Tipo de Anuncio -->
         <div>
             <x-input-label for="tipoanuncio_id" :value="__('Tipo de Anuncio')" class="mb-2" />
+            <p class="text-sm text-justify text-gray-500">
+                <strong>Oferta:</strong>para ofrecer tus servicios (ejemplos: Ofrezco tutorías, Doy clases de matemáticas, Imparto taller de cocina, etc)
+            </p>
+            <p class="text-sm text-justify text-gray-500">
+                <strong>Petición:</strong>para solicitar servicios (busco tutor para mi hijo, necesito ayuda con un problema informático, o quiero practicar inglés)
+            </p>
+            <p class="text-sm text-justify text-gray-500">
+                <strong>Match Familias:</strong>para conectar con otras familias de la comunidad (ejemplo: Familia Pérez de Madrid)
+            </p>
             <select wire:model="tipoanuncio_id" id="tipoanuncio_id" 
             class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition-colors duration-200 hover:border-indigo-400">
                 <option>--Selecciona Tipo de Anuncio--</option>

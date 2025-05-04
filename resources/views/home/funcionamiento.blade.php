@@ -85,6 +85,8 @@
             <span class="font-museo300 flex-shrink-0 text-9xl font-bold text-amber-500 text-center">1</span>
             <div class="flex-1 text-center md:text-left px-4 max-w-lg">
                 <p class="font-nexabold text-xl leading-relaxed text-center">REGÍSTRATE EN LA PLATAFORMA.</p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">Únete a nuestra comunidad: </p>
+                <p class="font-museo300 text-base text-justify">Crea tu cuenta. Sólo necesitas proporcionar algunos datos básicos para empezar.</p>
             </div>
             <img src="{{ asset('images/icon_1.png') }}" alt="Icono 1" class="flex-shrink-0 w-96 h-auto md:w-72 md:h-72 object-contain">
         </div>        
@@ -94,8 +96,10 @@
             <img src="{{ asset('images/icon_2.png') }}" alt="Icono 2" class="flex-shrink-0 w-96 h-auto md:w-72 md:h-72 object-contain">
             <span class="font-museo300 flex-shrink-0 text-9xl font-bold text-amber-500 text-center">2</span>
             <div class="flex-1 text-center md:text-left px-4 max-w-lg">
-                <p class="font-nexabold text-xl leading-relaxed text-justify">¿HAS DETECTADO ALGUNA NECESIDAD O CARENCIA EN TU ENTIDAD? PUBLICA TU ANUNCIO EN LA PLATAFORMA.</p>
-                <p class="font-museo300 text-base text-justify">SI TIENES PROBLEMAS PARA PUBLICAR TU PRIMER ANUNCIO, NO DUDES EN CONSULTARNOS. ¡ESTE ES UNO DE NUESTROS TALENTOS!</p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">CREA TU PRIMER ANUNCIO</p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">Ofrece tus habilidades: </p>
+                <p class="font-museo300 text-base text-justify">Publica un anuncio detallando el servicio que puedes ofrecer o el que necesitas. 
+                                                        Desde clases de guitarra hasta ayuda con la jardinería, ¡Todo Cuenta!</p>
             </div>
         </div>
 
@@ -103,9 +107,10 @@
         <div class="flex flex-col md:flex-row items-center justify-center py-6 w-full space-y-4 md:space-y-0 md:space-x-6">
             <span class="font-museo300 flex-shrink-0 text-9xl font-bold text-amber-500 text-center">3</span>
             <div class="flex-1 text-center md:text-left px-4 max-w-lg">
-                <p class="font-nexabold text-xl leading-relaxed text-justify">
-                    CONTACTA CON LAS PERSONAS INTERESADAS EN RESOLVER TU ANUNCIO. INTERCAMBIA IMPRESIONES Y GESTIONA TUS CANDIDATOS.
-                </p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">CHATEA</p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">Conecta con los demás: </p>
+                <p class="font-museo300 text-base text-justify">Usa nuestra función de chat para comunicarte con otros usuarios que estén interesados en tu anuncio o cuyos servicios te interesen. 
+                                                Es la oportunidad perfecta para detallar lo que necesitas o lo que puedes ofrecer.</p>
             </div>
             <img src="{{ asset('images/icon_3.png') }}" alt="Icono 2" class="flex-shrink-0 w-96 h-auto md:w-72 md:h-72 object-contain">
         </div>
@@ -115,11 +120,9 @@
             <img src="{{ asset('images/icon_4.png') }}" alt="Icono 2" class="flex-shrink-0 w-96 h-auto md:w-72 md:h-72 object-contain">
             <span class="font-museo300 flex-shrink-0 text-9xl font-bold text-amber-500 text-center">4</span>
             <div class="flex-1 text-center md:text-left px-4 max-w-lg">
-                <p class="font-nexabold text-base text-justify">
-                    CONFIRMA EL "ANUNCIO", ACOMPAÑA A LA PERSONA Y FORMA PARTE DEL CAMBIO. DA ESE PRIMER ANUNCIO, APRECIA SU POTENCIAL 
-                    Y AYUDA A QUE MÁS PERSONAS PUEDAN DEMOSTRAR SU VALOR HUMANO. RECUERDA: NO TIENES POR QUÉ PREOCUPARTE POR NADA MÁS. 
-                    <a href="https://amasfamilias.com/" target="_blank" class="text-amber-500 font-extrabold underline">A+FAMILIAS</a> SE ENCARGA DEL RESTO (SEGUROS, RETRIBUCIÓN...)  
-                </p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">ACUERDA EL SERVICIO</p>
+                <p class="font-nexabold text-xl leading-relaxed text-justify">Haz un trato:</p>
+                <p class="font-museo300 text-base text-justify">Una vez que encuentres el servicio adecuado o el usuario ideal para tu oferta, acuerda los detalles y organiza el intercambio.</p>
             </div>
         </div>              
     </div>

@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .animate-fade-in {
+        animation: fade-in 0.4s ease-out;
+    }
+
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
+
 /* Aplicar Museo a los encabezados */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Nexabold', sans-serif;

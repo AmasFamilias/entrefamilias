@@ -17,7 +17,14 @@
                             {{ __('Mis Anuncios') }}
                         </x-nav-link>
                 
-                        <x-nav-link :href="route('vacantes.create')" :active="request()->routeIs('vacantes.create')">
+                        {{-- <x-nav-link :href="route('vacantes.create')" :active="request()->routeIs('vacantes.create')">
+                            {{ __('Crear un Anuncio') }}
+                        </x-nav-link> --}}
+                        <x-nav-link 
+                            href="#"
+                            :active="request()->routeIs('vacantes.create')" 
+                            x-data 
+                            @click.prevent="Livewire.dispatch('abrirNormas', { ruta: '{{ route('vacantes.create') }}' })">
                             {{ __('Crear un Anuncio') }}
                         </x-nav-link>
                     </div>
@@ -221,11 +228,22 @@
                         {{ __('Anuncios') }}
                     </x-responsive-nav-link>
 
-                    <x-responsive-nav-link :href="route('vacantes.create')" class="block w-full text-center rounded-full px-4 py-2 text-sm 
+                    {{-- <x-responsive-nav-link :href="route('vacantes.create')" class="block w-full text-center rounded-full px-4 py-2 text-sm 
                     leading-5 text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:bg-amber-600 transition duration-150 ease-in-out" 
                     :active="request()->routeIs('vacantes.create')">
                         {{ __('Crear un Anuncio') }}
+                    </x-responsive-nav-link> --}}
+                    <x-responsive-nav-link 
+                        href="#"
+                        class="block w-full text-center rounded-full px-4 py-2 text-sm 
+                            leading-5 text-white bg-amber-500 hover:bg-amber-600 focus:outline-none 
+                            focus:bg-amber-600 transition duration-150 ease-in-out"
+                        :active="request()->routeIs('vacantes.create')"
+                        x-data
+                        @click.prevent="Livewire.dispatch('abrirNormas', { ruta: '{{ route('vacantes.create') }}' })">
+                        {{ __('Crear un Anuncio') }}
                     </x-responsive-nav-link>
+
                 </div>
 
                 <!-- Opcion de Mis Conversaciones -->
