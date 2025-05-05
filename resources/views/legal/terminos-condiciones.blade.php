@@ -2,15 +2,21 @@
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
             <!-- Logo y Botón de Retorno -->
-            <div class="flex justify-between items-center mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 mb-8">
                 <a href="{{ route('home') }}" class="flex items-center space-x-2 text-gray-700 hover:text-amber-500 transition-colors duration-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    <span class="font-medium">Volver al inicio</span>
+                    <span class="font-medium text-sm sm:text-base">Volver al inicio</span>
                 </a>
                 <div class="flex items-center">
-                    <img src="{{ asset('images/logofamiliaxfamilia.png') }}" alt="Logo EntreFamilias" class="h-12 w-auto">
+                    <a href="{{ route('home') }}" class="group">
+                        <div class="p-2 sm:p-3 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 hover:border-amber-500">
+                            <img src="{{ asset('images/logofamiliaxfamilia.png') }}" 
+                                 alt="Logo EntreFamilias" 
+                                 class="h-8 sm:h-10 md:h-12 w-auto">
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -46,79 +52,86 @@
                             La aceptación de estos Términos y Condiciones por parte de los Usuarios es un paso previo e indispensable a la utilización del Servicio. A+Familias se reserva el derecho a actualizar y/o modificar los Términos y Condiciones en cualquier momento y por cualquier motivo a su exclusiva discreción. A+Familias notificará a los Usuarios acerca de cualquier cambio material en los Términos y Condiciones o en el Servicio. Al acceder o usar los Servicios después de que A+Familias haya notificado al Usuario sobre una modificación o actualización, el Usuario acepta quedar obligado por los Términos y Condiciones modificados. Si los Términos y Condiciones modificados no resultan aceptables al Usuario, el Usuario deberá dejar de utilizar los Servicios.
                         </p>
 
-                        <div class="space-y-16">
+                        <div class="space-y-8">
                             <!-- Sección 1: Definiciones -->
-                            <section class="bg-gray-50 rounded-xl p-6 sm:p-8">
-                                <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">1. Definiciones</h2>
-                                <ul class="list-none space-y-4 text-gray-700">
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Catálogo:</strong> hace referencia al catálogo electrónico de Anuncios que los Oferentes hayan anunciado para la venta a través de la Plataforma.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Usuario:</strong> hace referencia a cualquier persona que utilice o desee utilizar uno o más Anuncios en la Plataforma.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Contenidos del Servicio:</strong> hace referencia a las obras, prestaciones protegidas y cualesquiera contenidos o elementos sobre los que recaigan derechos de propiedad intelectual e industrial que se usen en el Servicio. Incluye, entre otros, los textos, fotografías, gráficos, imágenes, iconos, tecnología, software, bases de datos y demás contenidos audiovisuales o sonoros, así como su diseño gráfico y códigos fuente utilizados en el Servicio.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Contenidos del Usuario:</strong> hace referencia a las obras, prestaciones protegidas y cualesquiera otros elementos protegidos por propiedad intelectual o industrial que el Usuario incorpore en el Servicio.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Plataforma:</strong> hace referencia al sitio web ENTREFAMILIAS, las aplicaciones y cualquier otro medio de acceso a la plataforma de A+Familias. Incluye los Servicios y todos los contenidos, herramientas, características y funcionalidades ofrecidas en la plataforma o a través de ella.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Anuncios:</strong> hace referencia a las ofertas que los Usuarios anuncien en el Catálogo para su venta.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Servicio:</strong> hace referencia al acceso y/o el uso de los servicios de la Plataforma.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Sitios Entrelazados:</strong> otras páginas y portales de internet accesibles a través de dispositivos técnicos de enlace, directorios e instrumentos de búsqueda.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Términos y Condiciones:</strong> hace referencia a los Términos y Condiciones de uso incluidos en el presente texto y disponibles en el siguiente enlace aquí.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Usuario Consumidor:</strong> Usuario de A+Familias que actúa con un propósito ajeno a su actividad comercial, empresarial, oficio o profesión, incluyendo las personas jurídicas y las entidades sin personalidad jurídica que actúen sin ánimo de lucro en un ámbito ajeno a una actividad comercial o empresarial.</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
-                                        <span><strong class="text-gray-900">Usuario Profesional:</strong> toda persona física que actúe en el marco de una actividad comercial o profesional o toda persona jurídica (por ejemplo, una empresa, fundación o asociación) que ofrezca servicios a usuarios consumidores a través de nuestra plataforma para fines relacionados con su comercio, negocio, oficio o profesión y que se hayan identificado en A+Familias como usuarios que operan en la plataforma como profesionales.</span>
-                                    </li>
-                                </ul>
+                            <section class="bg-gray-50 rounded-xl p-4 sm:p-6">
+                                <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">1. Definiciones</h2>
+                                <div class="space-y-4">
+                                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                                        <p class="text-gray-700 mb-3">
+                                            En los presentes Términos y Condiciones, los términos que aparecen con mayúscula inicial tendrán el significado que se les atribuye a continuación:
+                                        </p>
+                                        <ul class="list-none space-y-2 text-gray-700">
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Catálogo:</strong> hace referencia al catálogo electrónico de Anuncios que los Oferentes hayan anunciado para la venta a través de la Plataforma.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Usuario:</strong> hace referencia a cualquier persona que utilice o desee utilizar uno o más Anuncios en la Plataforma.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Contenidos del Servicio:</strong> hace referencia a las obras, prestaciones protegidas y cualesquiera contenidos o elementos sobre los que recaigan derechos de propiedad intelectual e industrial que se usen en el Servicio. Incluye, entre otros, los textos, fotografías, gráficos, imágenes, iconos, tecnología, software, bases de datos y demás contenidos audiovisuales o sonoros, así como su diseño gráfico y códigos fuente utilizados en el Servicio.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Contenidos del Usuario:</strong> hace referencia a las obras, prestaciones protegidas y cualesquiera otros elementos protegidos por propiedad intelectual o industrial que el Usuario incorpore en el Servicio.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Plataforma:</strong> hace referencia al sitio web ENTREFAMILIAS, las aplicaciones y cualquier otro medio de acceso a la plataforma de A+Familias. Incluye los Servicios y todos los contenidos, herramientas, características y funcionalidades ofrecidas en la plataforma o a través de ella.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Anuncios:</strong> hace referencia a las ofertas que los Usuarios anuncien en el Catálogo para su venta.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Servicio:</strong> hace referencia al acceso y/o el uso de los servicios de la Plataforma.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Sitios Entrelazados:</strong> otras páginas y portales de internet accesibles a través de dispositivos técnicos de enlace, directorios e instrumentos de búsqueda.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Términos y Condiciones:</strong> hace referencia a los Términos y Condiciones de uso incluidos en el presente texto y disponibles en el siguiente enlace aquí.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Usuario Consumidor:</strong> Usuario de A+Familias que actúa con un propósito ajeno a su actividad comercial, empresarial, oficio o profesión, incluyendo las personas jurídicas y las entidades sin personalidad jurídica que actúen sin ánimo de lucro en un ámbito ajeno a una actividad comercial o empresarial.</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="flex-shrink-0 w-2 h-2 mt-2.5 mr-3 bg-amber-500 rounded-full"></span>
+                                                <span><strong class="text-gray-900">Usuario Profesional:</strong> toda persona física que actúe en el marco de una actividad comercial o profesional o toda persona jurídica (por ejemplo, una empresa, fundación o asociación) que ofrezca servicios a usuarios consumidores a través de nuestra plataforma para fines relacionados con su comercio, negocio, oficio o profesión y que se hayan identificado en A+Familias como usuarios que operan en la plataforma como profesionales.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </section>
 
                             <!-- Sección 2: Introducción -->
-                            <section class="bg-white rounded-xl p-6 sm:p-8 border border-gray-100">
-                                <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">2. Introducción</h2>
-                                <div class="space-y-6">
+                            <section class="bg-white rounded-xl p-4 sm:p-6 border border-gray-100">
+                                <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">2. Introducción</h2>
+                                <div class="space-y-4">
                                     <div class="bg-gray-50 rounded-lg p-4">
-                                        <h3 class="text-xl font-medium text-gray-800 mb-3">2.1. Titular del Servicio</h3>
+                                        <h3 class="text-xl font-medium text-gray-800 mb-2">2.1. Titular del Servicio</h3>
                                         <p class="text-gray-700">
                                             El titular y propietario del Servicio es A+Familia, con domicilio en C/ Luis Vélez de Guevara nº 14, 28012 Madrid (España), provista de C.I.F.G16431447, inscrita en el Registro Mercantil de Madrid a 28 de noviembre de 2024, con salida 14643, 2954JUS.
                                         </p>
                                     </div>
                                     <div class="bg-gray-50 rounded-lg p-4">
-                                        <h3 class="text-xl font-medium text-gray-800 mb-3">2.2. El Servicio</h3>
-                                        <p class="text-gray-700">
+                                        <h3 class="text-xl font-medium text-gray-800 mb-4">2.2. El Servicio</h3>
+                                        <p class="text-gray-700 mb-6">
                                             ENTREFAMILIAS es una plataforma en línea que permite a sus Usuarios publicar anuncios, acceder a estos anuncios y sus contenidos.
                                             A+FAMILIAS únicamente pone a disposición de la comunidad un espacio donde interactuar, y en ningún caso ENTREFAMILIAS vende o compra los bienes, ni presta los servicios anunciados en el Catálogo.
                                             De este modo, A+FAMILIAS consiste fundamentalmente en un servicio de publicación de anuncios que conecta a anunciantes e interesados.
                                         </p>
                                     </div>
                                     <div class="bg-gray-50 rounded-lg p-4">
-                                        <h3 class="text-xl font-medium text-gray-800 mb-3">2.3. Necesidad de registro</h3>
-                                        <p class="text-gray-700">
+                                        <h3 class="text-xl font-medium text-gray-800 mb-4">2.3. Necesidad de registro</h3>
+                                        <p class="text-gray-700 mb-6">
                                             Para poder utilizar el Servicio es necesario el previo registro del Usuario, la aceptación de los presentes Términos y Condiciones, las condiciones específicas referenciadas, y la Política de Privacidad. Asimismo, deberás decidir si quieres o no aceptar el uso de Cookies no obligatorias.
                                             Los datos que introduzcas deben ser exactos, actuales y veraces. Como Usuario registrado eres responsable en todo momento de la custodia de tu contraseña, asumiendo en consecuencia cualesquiera daños y perjuicios que pudieran derivarse de su uso indebido, así como de la cesión, revelación o extravío de esta, debiendo informar inmediatamente a A+Familias en caso de que tengas motivos para creer que tu contraseña ha sido utilizada de manera no autorizada o es susceptible de serlo. En cualquier caso, A+Familias no es responsable de la custodia y uso de la cuenta de sus Usuarios.
                                         </p>

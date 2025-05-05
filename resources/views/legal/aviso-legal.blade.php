@@ -2,15 +2,21 @@
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
             <!-- Logo y Botón de Retorno -->
-            <div class="flex justify-between items-center mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 mb-8">
                 <a href="{{ route('home') }}" class="flex items-center space-x-2 text-gray-700 hover:text-amber-500 transition-colors duration-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    <span class="font-medium">Volver al inicio</span>
+                    <span class="font-medium text-sm sm:text-base">Volver al inicio</span>
                 </a>
                 <div class="flex items-center">
-                    <img src="{{ asset('images/logofamiliaxfamilia.png') }}" alt="Logo EntreFamilias" class="h-12 w-auto">
+                    <a href="{{ route('home') }}" class="group">
+                        <div class="p-2 sm:p-3 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 hover:border-amber-500">
+                            <img src="{{ asset('images/logofamiliaxfamilia.png') }}" 
+                                 alt="Logo EntreFamilias" 
+                                 class="h-8 sm:h-10 md:h-12 w-auto">
+                        </div>
+                    </a>
                 </div>
             </div>
 

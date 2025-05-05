@@ -20,48 +20,103 @@
                         </h1>
                     </header>
 
+                    <!-- Barra de búsqueda y filtros -->
+                    <div class="mb-8">
+                        <form action="{{ route('conversaciones.index') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1">
+                                <input type="text" 
+                                       name="busqueda" 
+                                       value="{{ $busqueda }}" 
+                                       placeholder="Buscar en conversaciones..." 
+                                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            </div>
+                            <div class="flex gap-4">
+                                <select name="orden" 
+                                        class="rounded-lg border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                                    <option value="reciente" {{ $orden === 'reciente' ? 'selected' : '' }}>Más recientes</option>
+                                    <option value="antiguo" {{ $orden === 'antiguo' ? 'selected' : '' }}>Más antiguos</option>
+                                    <option value="titulo" {{ $orden === 'titulo' ? 'selected' : '' }}>Por título</option>
+                                </select>
+                                <button type="submit" 
+                                        class="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors duration-300">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="space-y-6">
                         @forelse ($vacantes as $vacante)
-                            <div class="bg-gray-100 shadow-md rounded-xl p-5 transition transform hover:scale-[1.02]">
-                                <div class="flex flex-col lg:flex-row-reverse items-start lg:items-center gap-4">
+                            <div class="bg-gray-50 shadow-md rounded-xl p-6 transition transform hover:scale-[1.02] hover:shadow-lg">
+                                <div class="flex flex-col lg:flex-row-reverse items-start lg:items-center gap-6">
                                     
-                                    <!-- Imagen del anuncio con mejor tamaño -->
-                                    <img 
-                                        src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
-                                        alt="Imagen vacante {{ $vacante->titulo }}" 
-                                        class="w-40 h-28 object-cover rounded-lg shadow-md"
-                                    >
+                                    <!-- Imagen del anuncio -->
+                                    <div class="lg:w-48 flex-shrink-0">
+                                        <img 
+                                            src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
+                                            alt="Imagen vacante {{ $vacante->titulo }}" 
+                                            class="w-full h-32 object-cover rounded-lg shadow-md"
+                                        >
+                                    </div>
 
                                     <!-- Información de la vacante -->
                                     <div class="flex-1">
-                                        <h2 class="text-lg font-semibold text-gray-800">{{ $vacante->titulo }}</h2>
-                                        <p class="text-gray-600 text-sm mt-1">Conversaciones activas:</p>
-
-                                        <ul class="mt-3 space-y-2">
-                                            @foreach ($vacante->mensajes->groupBy(function($mensaje) use ($usuario) {
-                                                return $mensaje->sender_id === $usuario->id ? $mensaje->receiver_id : $mensaje->sender_id;
-                                            }) as $otroUsuarioId => $mensajes)
-                                                <li>
-                                                    <a href="{{ route('mensajes.index', [$vacante->id, $otroUsuarioId]) }}"
-                                                       class="flex items-center text-blue-600 hover:text-blue-800 transition">
-                                                        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" 
-                                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 10v6a2 2 0 01-2 2h-5.586a2 2 0 00-1.414.586l-2.414 2.414A2 2 0 018 20.414L5.586 18H4a2 2 0 01-2-2v-6a2 2 0 012-2h16a2 2 0 012 2z"></path>
-                                                        </svg>
-                                                        Conversación con 
-                                                        <span class="font-medium text-gray-800 ml-1">
-                                                            {{ $mensajes->first()->sender_id === $usuario->id ? $mensajes->first()->receiver->name : $mensajes->first()->sender->name }}
-                                                        </span> 
-                                                        ({{ $mensajes->count() }} mensajes)
-                                                    </a>
-                                                </li>
+                                        <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ $vacante->titulo }}</h2>
+                                        
+                                        <div class="space-y-4">
+                                            @foreach ($vacante->conversaciones as $otroUsuarioId => $conversacion)
+                                                <a href="{{ route('mensajes.index', [$vacante->id, $otroUsuarioId]) }}"
+                                                   class="block bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-300">
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="flex items-center space-x-3">
+                                                            <div class="relative">
+                                                                <img 
+                                                                    src="{{ $conversacion['ultimo_mensaje']->sender_id === $usuario->id ? 
+                                                                        $conversacion['ultimo_mensaje']->receiver->profile_photo_url : 
+                                                                        $conversacion['ultimo_mensaje']->sender->profile_photo_url }}" 
+                                                                    alt="Avatar" 
+                                                                    class="w-10 h-10 rounded-full"
+                                                                >
+                                                                @if($conversacion['no_leidos'] > 0)
+                                                                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                                                        {{ $conversacion['no_leidos'] }}
+                                                                    </span>
+                                                                @endif
+                                                            </div>
+                                                            <div>
+                                                                <h3 class="font-medium text-gray-800">
+                                                                    {{ $conversacion['ultimo_mensaje']->sender_id === $usuario->id ? 
+                                                                        $conversacion['ultimo_mensaje']->receiver->name : 
+                                                                        $conversacion['ultimo_mensaje']->sender->name }}
+                                                                </h3>
+                                                                <p class="text-sm text-gray-500 truncate max-w-md">
+                                                                    {{ $conversacion['ultimo_mensaje']->mensaje }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <span class="text-xs text-gray-500">
+                                                                {{ $conversacion['ultimo_mensaje']->created_at->diffForHumans() }}
+                                                            </span>
+                                                            <div class="text-sm text-gray-600 mt-1">
+                                                                {{ $conversacion['total_mensajes'] }} mensajes
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
                                             @endforeach
-                                        </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <p class="text-gray-500 text-center text-lg font-semibold">No tienes conversaciones aún.</p>
+                            <div class="text-center py-12">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <h3 class="mt-2 text-lg font-medium text-gray-900">No hay conversaciones</h3>
+                                <p class="mt-1 text-gray-500">Comienza una conversación sobre algún anuncio.</p>
+                            </div>
                         @endforelse
                     </div>
 

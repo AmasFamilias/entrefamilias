@@ -29,7 +29,7 @@
                                     
                                     <!-- Imagen -->
                                     <div class="sm:mr-4 mb-4 sm:mb-0">
-                                        @if($notificacion->data['tipo'] === 'candidato')
+                                        @if(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'candidato')
                                             <img src="{{ asset('storage/vacantes/' . ($notificacion->data['imagen_vacante'] ?? 'default-vacante.png')) }}" 
                                                  alt="{{ $notificacion->data['nombre_vacante'] }}" 
                                                  class="h-14 w-14 rounded-lg object-cover shadow">
@@ -45,7 +45,7 @@
                 
                                     <!-- Contenido -->
                                     <div class="flex-1 text-center sm:text-left">
-                                        @if($notificacion->data['tipo'] === 'candidato')
+                                        @if(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'candidato')
                                             <p class="text-lg font-semibold text-gray-800"> 
                                                 Nuevo contacto en <span class="font-bold">{{ $notificacion->data['nombre_vacante'] }}</span>
                                             </p>
@@ -62,7 +62,7 @@
                                     <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-4 sm:mt-0">
                                         <form method="POST" action="{{ route('notificaciones.leer', $notificacion->id) }}">
                                             @csrf
-                                            @if($notificacion->data['tipo'] === 'candidato')
+                                            @if(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'candidato')
                                                 <input type="hidden" name="redirect_to" value="{{ route('candidatos.index', $notificacion->data['id_vacante']) }}">
                                                 <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm">
                                                     Contactar
@@ -89,7 +89,7 @@
                                     
                                     <!-- Imagen -->
                                     <div class="sm:mr-4 mb-4 sm:mb-0">
-                                        @if($notificacion->data['tipo'] === 'candidato')
+                                        @if(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'candidato')
                                             <img src="{{ asset('storage/vacantes/' . ($notificacion->data['imagen_vacante'] ?? 'default-vacante.png')) }}" 
                                                 alt="{{ $notificacion->data['nombre_vacante'] }}" 
                                                 class="h-14 w-14 rounded-lg object-cover shadow">
@@ -105,7 +105,7 @@
 
                                     <!-- Contenido -->
                                     <div class="flex-1 text-center sm:text-left">
-                                        @if($notificacion->data['tipo'] === 'candidato')
+                                        @if(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'candidato')
                                             <p class="text-lg font-semibold text-gray-700">
                                                 Contacto visto en <span class="font-bold">{{ $notificacion->data['nombre_vacante'] }}</span>
                                             </p>

@@ -20,4 +20,9 @@ class LegalController extends Controller
     {
         return view('legal.aviso-legal');
     }
+
+    public function proteccionDatos()
+    {
+        return view('legal.proteccion-datos');
+    }
 } 

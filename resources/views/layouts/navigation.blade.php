@@ -181,10 +181,10 @@
                             {{ __('¿Cómo Funciona?') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('seccionpersonas')"
+                        {{-- <x-nav-link :href="route('seccionpersonas')"
                                     :active="str_contains($currentUrl, route('seccionpersonas'))">
                             {{ __('Personas') }}
-                        </x-nav-link>
+                        </x-nav-link> --}}
 
                         <x-nav-link :href="route('cambiarlascosas')"
                                     :active="str_contains($currentUrl, route('cambiarlascosas'))">
@@ -377,9 +377,9 @@
                     {{ __('¿Cómo Funciona?') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('seccionpersonas')">
+                {{-- <x-responsive-nav-link :href="route('seccionpersonas')">
                     {{ __('Personas') }}
-                </x-responsive-nav-link>
+                </x-responsive-nav-link> --}}
 
                 <x-responsive-nav-link :href="route('cambiarlascosas')">
                     {{ __('El Cambio') }}

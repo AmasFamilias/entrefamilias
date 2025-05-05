@@ -10,9 +10,17 @@ class NotificacionController extends Controller
     { 
         $usuario = auth()->user();
 
+        $notificacionesNoLeidas = $usuario->unreadNotifications->filter(function ($n) {
+            return isset($n->data['tipo']);
+        });
+    
+        $notificacionesLeidas = $usuario->readNotifications()->get()->filter(function ($n) {
+            return isset($n->data['tipo']);
+        })->values(); // opcional: puedes aplicar paginación manual si lo deseas
+    
         return view('notificaciones.index', [
-            'notificacionesNoLeidas' => $usuario->unreadNotifications,
-            'notificacionesLeidas' => $usuario->readNotifications()->paginate(10)
+            'notificacionesNoLeidas' => $notificacionesNoLeidas,
+            'notificacionesLeidas' => $notificacionesLeidas,
         ]);
     }
 

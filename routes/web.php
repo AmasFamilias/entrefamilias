@@ -24,6 +24,7 @@ Route::get('/personas', [HomeController::class, 'personas'])->name('seccionperso
 Route::get('/terminos-condiciones', [LegalController::class, 'terminosCondiciones'])->name('terminos-condiciones');
 Route::get('/politica-privacidad', [LegalController::class, 'politicaPrivacidad'])->name('politica-privacidad');
 Route::view('/aviso-legal', 'legal.aviso-legal')->name('aviso-legal');
+Route::get('/proteccion-datos', [LegalController::class, 'proteccionDatos'])->name('proteccion-datos');
 
 Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified'])->name('vacantes.index');
 Route::get('/anuncio/create', [VacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes.create');
