@@ -4,27 +4,26 @@
             @foreach ($categorias as $categoria) 
                 <div class="mb-12 bg-white shadow-sm rounded-lg p-6">
                     <!-- ENCABEZADO DE LA CATEGORÍA -->
-                    <div class="flex justify-between items-center">
-                        <h3 class="flex items-center font-extrabold text-2xl md:text-3xl text-gray-700">
+                    <div class="flex flex-wrap md:flex-nowrap justify-between items-center gap-2 md:gap-4">
+                        <h3 class="flex items-center font-extrabold text-xl sm:text-2xl md:text-3xl text-gray-700 w-full md:w-auto">
                             <!-- Ícono de la categoría -->
                             @if (!empty($categoria->icono))
-                                <img src="{{ asset('images/iconoscat/' . $categoria->icono) }}" class="w-10 h-10 mr-2" alt="Icono de {{ $categoria->descripcion }}">
+                                <img src="{{ asset('images/iconoscat/' . $categoria->icono) }}" class="w-10 h-10 mr-2 flex-shrink-0" alt="Icono de {{ $categoria->descripcion }}">
                             @else
-                                <svg class="w-10 h-10 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-10 h-10 mr-2 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/>
                                 </svg>
                             @endif
-                            {{ $categoria->descripcion }}
+                            <span class="truncate">{{ $categoria->descripcion }}</span>
                         </h3>
 
                         <!-- Ver más -->
                         <a href="{{ route('vacantes.categoria', ['categoria' => $categoria->id]) }}"
-                        class="text-indigo-500 hover:text-indigo-700 transition font-semibold">
+                        class="text-indigo-500 hover:text-indigo-700 transition font-semibold w-full md:w-auto text-right">
                             Ver más {{ $categoria->descripcion }} →
                         </a>
                     </div>
-
 
                     <!-- LISTADO DE VACANTES -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
