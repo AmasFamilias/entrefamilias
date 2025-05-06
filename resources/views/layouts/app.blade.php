@@ -52,9 +52,6 @@
         <!-- Componente de Cookies -->
         @livewire('cookie-banner')
 
-        <!-- Componente de Normas de Comunidad -->
-        @livewire('normas-modal')
-
         <!-- Scripts -->
         @livewireScripts
         @stack('scripts')

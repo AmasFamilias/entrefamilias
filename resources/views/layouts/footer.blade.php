@@ -33,6 +33,7 @@
         <!-- Enlaces de Políticas -->
         <div class="mt-12 pt-8 border-t border-gray-100">
             <div class="flex flex-wrap justify-center items-center gap-8 text-sm">
+
                 @livewire('cookie-policy-modal')
                 
                 <a href="{{ route('terminos-condiciones') }}" class="flex items-center text-gray-100 hover:text-amber-500 transition-all duration-300 group">
@@ -64,6 +65,7 @@
                 </a>
 
                 @livewire('normas-modal')
+                
             </div>
             <p class="text-xs text-gray-400 text-center mt-4">
                 © {{ date('Y') }} EntreFamilias. Todos los derechos reservados.
