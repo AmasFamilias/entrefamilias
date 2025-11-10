@@ -15,7 +15,8 @@
 
 /* Aplicar Museo a los encabezados */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nexabold', sans-serif;
+    font-family: 'Arial', sans-serif;
+    font-weight: 700; /* fuerza negrita en encabezados */
 }
 
 .font-museo300 {
@@ -27,11 +28,13 @@ h1, h2, h3, h4, h5, h6 {
 }    
 
 .font-nexabold {
-    font-family: 'Nexabold', sans-serif;
+    font-family: 'Arial', sans-serif;
+    font-weight: 700; /* Arial Bold */
 }
 
 .font-nexalight {
-    font-family: 'Nexalight', sans-serif;
+    font-family: 'Arial', sans-serif;
+    font-weight: 300; /* Arial light — ojo: Arial puede no tener 300 exacto */
 }
 
 .font-segoe_ui {

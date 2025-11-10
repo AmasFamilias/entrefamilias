@@ -14,22 +14,6 @@
     font-style: normal;
 }
 
-/* Fuentas de Nexa */
-
-@font-face {
-    font-family: 'Nexabold';
-    src: url('/fonts/Nexa_Bold.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nexalight';
-    src: url('/fonts/Nexa_Light.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 /* Fuentas de Museo Segoe UI Symbol Regular*/
 @font-face {
     font-family: 'Segoe_ui';
