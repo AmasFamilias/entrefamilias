@@ -325,7 +325,7 @@
         @if (!$imagen_nueva && $imagen)
             <div class="my-5 w-80">
                 <x-input-label :value="__('Imagen Actual')" />
-                <img src="{{ asset('storage/vacantes/' . $imagen) }}" alt="{{ 'Imagen Vacante' . $titulo }}" class="rounded-lg border shadow-sm">
+                <img src="{{ route('file.vacante', ['vacanteId' => $vacante_id, 'filename' => basename($imagen)]) }}" alt="{{ 'Imagen Vacante' . $titulo }}" class="rounded-lg border shadow-sm">
             </div>
         @endif
 

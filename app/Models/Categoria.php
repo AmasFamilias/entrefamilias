@@ -9,6 +9,12 @@ class Categoria extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'descripcion',
+        'icono',
+        'cabecera',
+    ];
+
     public function vacantes()
     {
         return $this->hasMany(Vacante::class, 'categoria_id');

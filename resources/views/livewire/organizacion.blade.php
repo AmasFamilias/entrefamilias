@@ -92,7 +92,7 @@
                 @forelse($organizations as $organizacion)
                 <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
                     <div class="relative h-48">
-                        <img src="{{ $organizacion->imagen ? asset('storage/' . $organizacion->imagen) : asset('images/perfil_ong.png') }}" 
+                        <img src="{{ $organizacion->imagen ? route('file.organizacion', ['organizacionId' => $organizacion->id, 'filename' => basename($organizacion->imagen)]) : asset('images/perfil_ong.png') }}" 
                              alt="Imagen de la Organización" 
                              class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
@@ -281,7 +281,7 @@
                                                     >
                                                 @else
                                                     <img 
-                                                        src="{{ asset('storage/' . $currentImage) }}" 
+                                                        src="{{ $currentImage && $miOrganizacion ? route('file.organizacion', ['organizacionId' => $miOrganizacion->id, 'filename' => basename($currentImage)]) : asset('images/perfil_ong.png') }}" 
                                                         alt="Imagen actual" 
                                                         class="h-full w-full object-contain p-2"
                                                     >

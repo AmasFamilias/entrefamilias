@@ -16,7 +16,7 @@
 
                     @if($mensaje->archivo)
                         <div class="mt-4">
-                            <a href="{{ asset('storage/mensajes/' . $mensaje->archivo) }}" class="text-indigo-500">Descargar archivo adjunto</a>
+                            <a href="{{ route('file.message', ['messageId' => $mensaje->id, 'filename' => basename($mensaje->archivo)]) }}" class="text-indigo-500" target="_blank" rel="noopener noreferrer">Descargar archivo adjunto</a>
                         </div>
                     @endif
                 </div>

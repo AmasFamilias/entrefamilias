@@ -49,6 +49,13 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('vacantes.index', absolute: false));
+        // Limpiar cualquier intento de redirección previo (puede venir de login)
+        // Esto asegura que siempre vaya a verificación de email después del registro
+        $request->session()->forget('url.intended');
+
+        // Redirigir explícitamente a la página de verificación de email con mensaje de éxito
+        return redirect()
+            ->route('verification.notice')
+            ->with('status', 'registered-successfully');
     }
 }

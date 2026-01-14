@@ -18,6 +18,17 @@ class PostularVacante extends Component
 
     public function postularme()
     {
+        // Verificar que el usuario está autenticado
+        if (!auth()->check()) {
+            abort(403, 'Debes estar autenticado para postularte a una vacante.');
+        }
+
+        // Validar que el usuario no es el propietario de la vacante
+        if ($this->vacante->user_id === auth()->id()) {
+            session()->flash('mensaje', 'No puedes postularte a tu propia vacante.');
+            return redirect()->back();
+        }
+
         // Validar si la fecha de cierre ya pasó a partir de la columna ultimo_dia
         if($this->vacante->ultimo_dia < now()) {
             session()->flash('mensaje', 'La fecha de postulación para este anuncio ha expirado.');

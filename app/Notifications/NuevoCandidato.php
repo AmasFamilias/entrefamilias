@@ -37,11 +37,26 @@ class NuevoCandidato extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // Generar URL absoluta para la imagen de la vacante usando la ruta pública segura
+        // En emails necesitamos URLs absolutas completas para que las imágenes se muestren
+        // url() helper siempre genera URLs absolutas basándose en APP_URL
+        $imagenVacanteUrl = null;
+        if ($this->imagen_vacante) {
+            // Generar URL absoluta usando route() con url() para asegurar formato completo
+            $imagenVacanteUrl = url(route('file.vacante', [
+                'vacanteId' => $this->id_vacante,
+                'filename' => basename($this->imagen_vacante)
+            ], false));
+        } else {
+            // URL absoluta para imagen por defecto
+            $imagenVacanteUrl = url('/images/default-vacante.png');
+        }
+
         return (new MailMessage)
         ->subject('📢 Nuevo Contacto en tu Anuncio')
         ->markdown('emails.nuevo_candidato', [
             'nombre_vacante' => $this->nombre_vacante,
-            'imagen_vacante' => $this->imagen_vacante
+            'imagen_vacante_url' => $imagenVacanteUrl
         ]);
     }
 
@@ -52,7 +67,7 @@ class NuevoCandidato extends Notification
      */
     
      //Almacena las notificaciones en la DB
-    public function toDatabase( $notifiable)
+    public function toDatabase($notifiable)
     {
         return [
             'tipo' => 'candidato',
@@ -60,6 +75,7 @@ class NuevoCandidato extends Notification
             'nombre_vacante' => $this->nombre_vacante,
             'usuario_id' => $this->usuario_id,
             'imagen_vacante' => $this->imagen_vacante,
-       ];
-    } 
+        ];
+    }
+
 }

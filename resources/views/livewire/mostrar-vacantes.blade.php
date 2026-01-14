@@ -173,7 +173,7 @@
                     {{-- Imagen --}}
                     <div class="w-full md:w-80 relative overflow-hidden rounded-xl transition-transform duration-300 hover:scale-95">
                         <img 
-                            src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
+                            src="{{ $vacante->imagen ? route('file.vacante', ['vacanteId' => $vacante->id, 'filename' => basename($vacante->imagen)]) : asset('images/default-vacante.png') }}" 
                             alt="{{ 'Imagen vacante ' . $vacante->titulo }}" 
                             class="w-full h-64 object-cover"
                             loading="lazy"

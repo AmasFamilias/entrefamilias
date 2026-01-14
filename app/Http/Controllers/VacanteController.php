@@ -10,22 +10,16 @@ class VacanteController extends Controller
 {
     public function index()
     {
-        // $this->authorize('viewAny', Vacante::class);
+        $this->authorize('viewAny', Vacante::class);
         
-        if (Gate::allows('viewAny', Vacante::class)){
-             return view('vacantes.index');
-        }
+        return view('vacantes.index');
     }
 
-    public function create(Vacante $vacante)
+    public function create()
     {
-        if (Gate::allows('create', $vacante)){
-            return view('vacantes.create', [
-                 'vacante' => $vacante
-            ]);
-        }else{
-            return redirect()->route('vacantes.index');
-        }
+        $this->authorize('create', Vacante::class);
+        
+        return view('vacantes.create');
     }
 
     public function show(Vacante $vacante)
@@ -37,13 +31,11 @@ class VacanteController extends Controller
  
     public function edit(Vacante $vacante)
     {   
-        if (Gate::allows('update', $vacante)){
-            return view('vacantes.edit', [
-                'vacante' => $vacante
-            ]);
-        }else{
-            return redirect()->route('vacantes.index');
-        }
+        $this->authorize('update', $vacante);
+        
+        return view('vacantes.edit', [
+            'vacante' => $vacante
+        ]);
     }
 
 }

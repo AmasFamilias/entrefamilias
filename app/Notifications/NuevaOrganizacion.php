@@ -27,17 +27,27 @@ class NuevaOrganizacion extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
-        // Si la organización no tiene imagen, usar la imagen por defecto
-        $imagen = $this->organizacion->imagen 
-            ? asset('storage/' . $this->organizacion->imagen) 
-            : asset('images/perfil_ong.png');
+        // Generar URL absoluta para la imagen de la organización usando la ruta pública segura
+        // En emails necesitamos URLs absolutas completas para que las imágenes se muestren
+        // url() helper siempre genera URLs absolutas basándose en APP_URL
+        $imagenUrl = null;
+        if ($this->organizacion->imagen) {
+            // Generar URL absoluta usando route() con url() para asegurar formato completo
+            $imagenUrl = url(route('file.organizacion', [
+                'organizacionId' => $this->organizacion->id,
+                'filename' => basename($this->organizacion->imagen)
+            ], false));
+        } else {
+            // URL absoluta para imagen por defecto
+            $imagenUrl = url('/images/perfil_ong.png');
+        }
 
         return (new MailMessage)
             ->subject('🎉 Nueva Organización Creada')
             ->markdown('emails.nueva_organizacion', [
                 'nombre' => $this->organizacion->nombre,
                 'descripcion' => $this->organizacion->descripcion,
-                'imagen' => $imagen,  
+                'imagen_url' => $imagenUrl,  
                 'usuario_nombre' => $this->usuario->name,
                 'usuario_email' => $this->usuario->email,
             ]);

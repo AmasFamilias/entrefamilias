@@ -1,5 +1,5 @@
 @component('mail::message')
-# <img src="{{ asset('images/entrefamilias.png') }}" alt="Entre Familias" style="max-width: 150px;">
+# <img src="{{ url('/images/entrefamilias.png') }}" alt="Entre Familias" style="max-width: 150px;">
 
 ## 🎉 ¡Nueva Organización Creada!
 
@@ -9,7 +9,7 @@ Una nueva organización ha sido registrada:
 📝 **Descripción:** {{ $descripcion }}
 
 📷 **Imagen de la Organización:**  
-<img src="{{ $imagen }}" alt="Imagen de la Organización" style="max-width: 300px; border-radius: 10px;">
+<img src="{{ $imagen_url }}" alt="Imagen de la Organización" style="max-width: 300px; border-radius: 10px;">
 
 👤 **Creado por:**  
 📛 **Nombre:** {{ $usuario_nombre }}  

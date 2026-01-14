@@ -56,4 +56,5 @@ class InvitarColaborador extends Notification
             'admin_nombre' => $this->admin->name,
         ];
     }
+
 }

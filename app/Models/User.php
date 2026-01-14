@@ -59,10 +59,9 @@ class User extends Authenticatable implements MustVerifyEmail
  
     public function getProfilePhotoUrlAttribute()
     {
-        $path = "profiles/" . $this->profile_image; // Añadir la carpeta 'profiles/'
-    
-        if (!empty($this->profile_image) && Storage::disk('public')->exists($path)) {
-            return asset("storage/" . $path); // Devuelve la URL correcta
+        if (!empty($this->profile_image) && Storage::disk('public')->exists("profiles/" . $this->profile_image)) {
+            // Usar la ruta controlada para servir la imagen de forma segura
+            return route('file.profile', ['userId' => $this->id, 'filename' => basename($this->profile_image)]);
         }
     
         return asset('images/datospersonales.png'); // Imagen por defecto

@@ -42,7 +42,7 @@
             <!-- Imagen -->
             <div class="mb-6 overflow-hidden rounded-lg">
                 <img class="rounded-lg w-full object-cover hover:scale-105 transition-transform duration-300" 
-                     src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
+                     src="{{ $vacante->imagen ? route('file.vacante', ['vacanteId' => $vacante->id, 'filename' => basename($vacante->imagen)]) : asset('images/default-vacante.png') }}" 
                      alt="Imagen de la Vacante">
             </div>
 
@@ -178,7 +178,7 @@
                 @if($vacante->organizacion_id)
                     <!-- Información de la Organización -->
                     <img class="w-20 h-20 rounded-full mx-auto" 
-                        src="{{ $vacante->organizacion->imagen ? asset('storage/' . $vacante->organizacion->imagen) : asset('images/perfil_ong.png') }}" 
+                        src="{{ $vacante->organizacion && $vacante->organizacion->imagen ? route('file.organizacion', ['organizacionId' => $vacante->organizacion->id, 'filename' => basename($vacante->organizacion->imagen)]) : asset('images/perfil_ong.png') }}" 
                         alt="Logo de {{ $vacante->organizacion->nombre }}">
 
                     <h3 class="text-lg font-bold mt-3">{{ $vacante->organizacion->nombre }}</h3>
@@ -201,24 +201,68 @@
                     <p class="text-gray-500 mt-3 text-sm">Creado por: {{ $vacante->entidad }}</p>
 
                 @else
-                    <!-- Información del Usuario -->
-                    <div class="text-center">
-                        <img class="w-20 h-20 rounded-full mx-auto" 
-                            src="{{ $vacante->users?->profile_photo_url }}" 
-                            alt="Foto de {{ $vacante->users?->name ?? 'Usuario desconocido' }}">
+                    <!-- Información del Usuario - Diseño Moderno y Creativo -->
+                    <div class="relative">
+                        <!-- Tarjeta con gradiente y sombra -->
+                        <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-2xl p-6 shadow-xl border border-indigo-100 overflow-hidden">
+                            <!-- Decoración de fondo -->
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-200 rounded-full opacity-20 blur-2xl -mr-16 -mt-16"></div>
+                            <div class="absolute bottom-0 left-0 w-24 h-24 bg-purple-200 rounded-full opacity-20 blur-xl -ml-12 -mb-12"></div>
+                            
+                            <!-- Contenido -->
+                            <div class="relative z-10">
+                                <!-- Imagen de perfil con borde decorativo -->
+                                <div class="flex justify-center mb-4">
+                                    <div class="relative">
+                                        <!-- Anillo decorativo exterior -->
+                                        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-1 animate-pulse"></div>
+                                        <!-- Anillo intermedio -->
+                                        <div class="absolute inset-1 rounded-full bg-white p-1"></div>
+                                        <!-- Imagen de perfil -->
+                                        <div class="relative w-28 h-28 rounded-full overflow-hidden bg-white p-1 shadow-lg">
+                                            <img class="w-full h-full rounded-full object-cover" 
+                                                src="{{ $vacante->users?->profile_photo_url }}" 
+                                                alt="Foto de {{ $vacante->users?->name ?? 'Usuario desconocido' }}"
+                                                onerror="this.src='{{ asset('images/datospersonales.png') }}'">
+                                        </div>
+                                        <!-- Badge de verificación (opcional) -->
+                                        <div class="absolute -bottom-1 -right-1 bg-indigo-500 rounded-full p-1.5 shadow-lg">
+                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <h3 class="text-lg font-bold mt-3">{{ $vacante->users?->name ?? 'Usuario desconocido' }}</h3>
-                    </div>
+                                <!-- Nombre del usuario -->
+                                <div class="text-center mb-4">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-1">{{ $vacante->users?->name ?? 'Usuario desconocido' }}</h3>
+                                    <p class="text-sm text-gray-500 flex items-center justify-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                        </svg>
+                                        Publicador
+                                    </p>
+                                </div>
 
-                    <!-- Sobre mí -->
-                    @if($vacante->users?->sobremi)
-                        <div class="mt-6 bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-lg shadow-sm">
-                            <h4 class="text-indigo-700 font-semibold text-lg mb-2">Sobre mí</h4>
-                            <p class="text-gray-700 text-justify leading-relaxed">{{ $vacante->users?->sobremi }}</p>
+                                <!-- Sobre mí -->
+                                @if($vacante->users?->sobremi)
+                                    <div class="mt-4 bg-white/80 backdrop-blur-sm border border-indigo-200 rounded-xl p-4 shadow-md">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <div class="w-1 h-6 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full"></div>
+                                            <h4 class="text-indigo-700 font-bold text-base">Sobre mí</h4>
+                                        </div>
+                                        <p class="text-gray-700 text-sm leading-relaxed">{{ $vacante->users?->sobremi }}</p>
+                                    </div>
+                                @endif
+
+                                <!-- Insignias -->
+                                <div class="mt-4">
+                                    <livewire:insignias modo="vacante" propietario_id="{{ $vacante->user_id }}" />
+                                </div>
+                            </div>
                         </div>
-                    @endif
-
-                    <livewire:insignias modo="vacante" propietario_id="{{ $vacante->user_id }}" />
+                    </div>
                 @endif
             </div>
 

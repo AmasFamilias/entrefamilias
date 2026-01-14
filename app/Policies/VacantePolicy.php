@@ -58,7 +58,7 @@ class VacantePolicy
      */
     public function restore(User $user, Vacante $vacante): bool
     {
-        //
+        return $user->id === $vacante->user_id;
     }
 
     /**
@@ -66,7 +66,7 @@ class VacantePolicy
      */
     public function forceDelete(User $user, Vacante $vacante): bool
     {
-        //
+        return $user->id === $vacante->user_id;
     }
 
     public function postular(User $user, Vacante $vacante)

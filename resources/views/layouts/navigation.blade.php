@@ -91,7 +91,7 @@
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <!-- Imagen de perfil -->
-                                <img src="{{ Auth::user()->profile_image ? asset('storage/profiles/' . Auth::user()->profile_image) : asset('images/datospersonales.png') }}" 
+                                <img src="{{ Auth::user()->profile_image ? route('file.profile', ['userId' => Auth::id(), 'filename' => basename(Auth::user()->profile_image)]) : asset('images/datospersonales.png') }}" 
                                      alt="Imagen de Perfil" 
                                      class="h-8 w-8 rounded-full object-cover mr-2 border border-gray-300 shadow-sm">
                         

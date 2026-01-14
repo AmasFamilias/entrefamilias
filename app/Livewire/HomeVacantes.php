@@ -15,8 +15,20 @@ class HomeVacantes extends Component
 
     public function buscar($termino, $categoria)
     {
-        $this->termino = $termino;
-        $this->categoria = $categoria;
+        // Sanitizar y validar término de búsqueda
+        if ($termino) {
+            $termino = strip_tags($termino);
+            $termino = trim($termino);
+            $termino = substr($termino, 0, 100); // Limitar longitud máxima
+        }
+        
+        // Validar categoría es numérica si se proporciona
+        if ($categoria && !is_numeric($categoria)) {
+            $categoria = null;
+        }
+        
+        $this->termino = $termino ?: null;
+        $this->categoria = $categoria ? (int)$categoria : null;
     }
 
     public function render()
@@ -25,7 +37,15 @@ class HomeVacantes extends Component
             $query->whereDate('ultimo_dia', '>', now());
         })->get();
 
-        if (!$this->termino && !$this->categoria) {
+        // Sanitizar término antes de usar en consulta
+        $terminoSanitizado = null;
+        if ($this->termino) {
+            $terminoSanitizado = strip_tags($this->termino);
+            $terminoSanitizado = trim($terminoSanitizado);
+            $terminoSanitizado = substr($terminoSanitizado, 0, 100); // Limitar longitud
+        }
+
+        if (!$terminoSanitizado && !$this->categoria) {
             // Home sin filtros: 4 vacantes por categoría
             $vacantesPorCategoria = [];
 
@@ -42,12 +62,12 @@ class HomeVacantes extends Component
         } else {
             // Filtrar con búsqueda o categoría
             $paginacion = Vacante::with('categoria')
-                ->when($this->termino, function ($query) {
-                    $query->where('titulo', 'LIKE', "%" . $this->termino . "%")
-                        ->orWhere('entidad', 'LIKE', "%" . $this->termino . "%");
+                ->when($terminoSanitizado, function ($query) use ($terminoSanitizado) {
+                    $query->where('titulo', 'LIKE', "%" . $terminoSanitizado . "%")
+                        ->orWhere('entidad', 'LIKE', "%" . $terminoSanitizado . "%");
                 })
                 ->when($this->categoria, function ($query) {
-                    $query->where('categoria_id', $this->categoria);
+                    $query->where('categoria_id', (int)$this->categoria);
                 })
                 ->whereDate('ultimo_dia', '>', now())
                 ->paginate(10);

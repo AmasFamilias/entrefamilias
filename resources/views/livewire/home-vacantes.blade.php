@@ -7,8 +7,12 @@
                     <div class="flex flex-wrap md:flex-nowrap justify-between items-center gap-2 md:gap-4">
                         <h3 class="flex items-center font-extrabold text-xl sm:text-2xl md:text-3xl text-gray-700 w-full md:w-auto">
                             <!-- Ícono de la categoría -->
-                            @if (!empty($categoria->icono))
-                                <img src="{{ asset('images/iconoscat/' . $categoria->icono) }}" class="w-10 h-10 mr-2 flex-shrink-0" alt="Icono de {{ $categoria->descripcion }}">
+                            @php
+                                // Usar el helper para obtener la URL segura del icono
+                                $iconoUrl = categoria_icono_url($categoria->icono, $categoria->descripcion);
+                            @endphp
+                            @if ($iconoUrl)
+                                <img src="{{ $iconoUrl }}" class="w-10 h-10 mr-2 flex-shrink-0" alt="Icono de {{ e($categoria->descripcion) }}">
                             @else
                                 <svg class="w-10 h-10 mr-2 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -32,7 +36,7 @@
                                 <!-- Imagen del anuncio -->
                                 <div class="w-full relative overflow-hidden rounded-t-xl">
                                     <img 
-                                        src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
+                                        src="{{ $vacante->imagen ? route('file.vacante', ['vacanteId' => $vacante->id, 'filename' => basename($vacante->imagen)]) : asset('images/default-vacante.png') }}" 
                                         alt="Imagen vacante {{ $vacante->titulo }}" 
                                         class="w-full h-56 object-cover transition-opacity duration-300 hover:opacity-90"
                                         loading="lazy"

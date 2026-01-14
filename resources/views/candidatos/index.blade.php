@@ -18,7 +18,7 @@
                             @forelse ($vacante->candidatos as $candidato)
                                 <li class="p-5 sm:p-6 flex flex-col sm:flex-row items-center bg-gray-100 rounded-xl shadow-md hover:shadow-lg transition mb-4 sm:gap-6 w-full">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ $candidato->user->profile_image ? asset('storage/profiles/' . $candidato->user->profile_image) : asset('images/datospersonales.png') }}"
+                                        <img src="{{ $candidato->user->profile_image ? route('file.profile', ['userId' => $candidato->user->id, 'filename' => basename($candidato->user->profile_image)]) : asset('images/datospersonales.png') }}"
                                             alt="Foto de {{ $candidato->user->name }}"
                                             class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-blue-500 shadow-md">
                                     </div>

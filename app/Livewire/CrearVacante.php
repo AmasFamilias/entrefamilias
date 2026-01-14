@@ -7,6 +7,8 @@ use App\Models\Categoria;
 use App\Models\TipoAnuncio;
 use App\Models\User;
 use Livewire\WithFileUploads;
+use App\Services\FileValidatorService;
+use Illuminate\Support\Facades\RateLimiter;
 
 class CrearVacante extends Component
 {
@@ -41,7 +43,7 @@ class CrearVacante extends Component
 
 
     protected $rules = [
-        'titulo' => 'required|string',
+        'titulo' => 'required|string|max:200|min:5',
         'selectedOrganizacion' => 'nullable|integer|exists:organizacion,id',
         'descripcion' => 'required',
         'descrip_larga' => 'required', 
@@ -53,10 +55,10 @@ class CrearVacante extends Component
         'tipoanuncio_id' => 'required',
         'ultimo_dia' => 'required|date',
         'etiquetas' => 'array|max:8',
-        'etiquetas.*' => 'string|max:20',
+        'etiquetas.*' => 'string|max:20|regex:/^[a-zA-Z0-9\s\-_áéíóúÁÉÍÓÚñÑ]+$/',
         'nuevaEtiqueta' => 'nullable|string|max:20',
         'imagen' => 'nullable|image|max:3072|mimes:jpeg,png,jpg',
-        'enlace' => 'nullable|string|max:255|url', 
+        'enlace' => 'nullable|string|max:500|url|active_url', 
         'lugar' => 'nullable|string|max:255', 
     ];
 
@@ -69,6 +71,19 @@ class CrearVacante extends Component
 
     public function crearVacante()
     {
+        // Verificar que el usuario está autenticado
+        if (!auth()->check()) {
+            abort(403, 'Debes estar autenticado para crear una vacante.');
+        }
+        
+        // Rate limiting para subidas de archivos: máximo 20 subidas por minuto
+        $key = 'upload-image:' . auth()->id();
+        if ($this->imagen && RateLimiter::tooManyAttempts($key, 20)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('imagen', "Demasiadas subidas. Intenta de nuevo en {$seconds} segundos.");
+            return;
+        }
+        
         $datos = $this->validate();
 
         // Convertir organizacion_id a null si está vacío
@@ -77,10 +92,25 @@ class CrearVacante extends Component
         : null;
 
 
-        // Almacenar la imagen
+        // Almacenar la imagen con validación de contenido
         if ($this->imagen) {
-            $imagen = $this->imagen->store('public/vacantes');
-            $datos['imagen'] = $nombre_imagen = str_replace('public/vacantes/','',$imagen);
+            // Incrementar contador de rate limiting
+            RateLimiter::hit($key, 60); // 60 segundos = 1 minuto
+            $fileValidator = new FileValidatorService();
+            $validation = $fileValidator->validateImage($this->imagen);
+            
+            if (!$validation['valid']) {
+                foreach ($validation['errors'] as $error) {
+                    $this->addError('imagen', $error);
+                }
+                return;
+            }
+            
+            // Generar nombre único y seguro
+            $imageName = $fileValidator->generateSafeFileName($this->imagen, 'vacante');
+            
+            $imagen = $this->imagen->storeAs('public/vacantes', $imageName);
+            $datos['imagen'] = basename($imagen);
         } else {
             $datos['imagen'] = null;
         }

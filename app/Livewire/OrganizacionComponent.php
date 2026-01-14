@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\NuevaOrganizacion;
 use App\Notifications\InvitarColaborador;
 use Illuminate\Notifications\AnonymousNotifiable;
+use App\Services\FileValidatorService;
+use Illuminate\Support\Facades\RateLimiter;
 
 class OrganizacionComponent extends Component 
 {
@@ -84,28 +86,72 @@ class OrganizacionComponent extends Component
 
     public function createOrAttachOrganization()
     {
+        // Rate limiting para subidas de archivos: máximo 20 subidas por minuto
+        $key = 'upload-image:' . auth()->id();
+        if ($this->imagen && RateLimiter::tooManyAttempts($key, 20)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('imagen', "Demasiadas subidas. Intenta de nuevo en {$seconds} segundos.");
+            return;
+        }
+
         $this->validate();
 
+        // Validar imagen si existe
+        if ($this->imagen) {
+            // Incrementar contador de rate limiting
+            RateLimiter::hit($key, 60); // 60 segundos = 1 minuto
+            $fileValidator = new FileValidatorService();
+            $validation = $fileValidator->validateImage($this->imagen);
+            
+            if (!$validation['valid']) {
+                foreach ($validation['errors'] as $error) {
+                    $this->addError('imagen', $error);
+                }
+                return;
+            }
+        }
+
         try {
+            $fileValidator = new FileValidatorService();
+            
             if ($this->siActualiza) {
+                $imagenPath = $this->currentImage;
+                
+                if ($this->imagen) {
+                    // Eliminar imagen anterior si existe
+                    if ($this->currentImage && Storage::disk('public')->exists($this->currentImage)) {
+                        Storage::disk('public')->delete($this->currentImage);
+                    }
+                    
+                    // Generar nombre seguro
+                    $imageName = $fileValidator->generateSafeFileName($this->imagen, 'org');
+                    $imagenPath = $this->imagen->storeAs('organizaciones', $imageName, 'public');
+                }
+                
                 $this->miOrganizacion->update([
                     'nombre' => $this->nombre,
                     'cif' => $this->cif,
                     'descripcion' => $this->descripcion,
                     'web' => $this->web,
-                    'imagen' => $this->imagen 
-                        ? $this->imagen->store('organizaciones', 'public') 
-                        : $this->currentImage,
+                    'imagen' => $imagenPath,
                 ]);
                 session()->flash('success', 'Organización actualizada exitosamente.');
     
             } else {
+                $imagenPath = null;
+                
+                if ($this->imagen) {
+                    // Generar nombre seguro
+                    $imageName = $fileValidator->generateSafeFileName($this->imagen, 'org');
+                    $imagenPath = $this->imagen->storeAs('organizaciones', $imageName, 'public');
+                }
+                
                 $organizacion = Organizacion::create([
                     'nombre' => $this->nombre,
                     'cif' => $this->cif,
                     'descripcion' => $this->descripcion,
                     'web' => $this->web,
-                    'imagen' => $this->imagen ? $this->imagen->store('organizaciones', 'public') : null,
+                    'imagen' => $imagenPath,
                 ]);
                 
                 $organizacion->users()->attach(auth()->id(), [

@@ -27,4 +27,9 @@ class Mensaje extends Model
         return $this->belongsTo(User::class, 'receiver_id');
     }
 
+    public function vacante()
+    {
+        return $this->belongsTo(Vacante::class, 'vacante_id');
+    }
+
 } 

@@ -8,6 +8,8 @@ use App\Models\Categoria;
 use App\Models\TipoAnuncio;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Carbon;
+use App\Services\FileValidatorService;
+use Illuminate\Support\Facades\RateLimiter;
 
 class EditarVacante extends Component 
 {
@@ -36,26 +38,31 @@ class EditarVacante extends Component
     public $orgexistentes;
 
     protected $rules = [
-        'titulo' => 'required|string',
+        'titulo' => 'required|string|max:200|min:5',
         'selectedOrganizacion' => 'nullable|integer|exists:organizacion,id',
         'descripcion' => 'required',
         'descrip_larga' => 'required',
         'presencial' => 'required|in:0,1',
         'lugar' => 'nullable|string|max:255',
         'virtual' => 'required|in:0,1,2',
-        'enlace' => 'nullable|string|max:255|url|required_if:virtual,1,2',
+        'enlace' => 'nullable|string|max:500|url|active_url|required_if:virtual,1,2',
         'evento' => 'required|in:0,1',
         'fecha_evento' => 'nullable|date',
         'categoria_id' => 'required',
         'tipoanuncio_id' => 'required',
         'ultimo_dia' => 'required|date',
         'etiquetas' => 'array|max:8',
-        'etiquetas.*' => 'string|max:20',
+        'etiquetas.*' => 'string|max:20|regex:/^[a-zA-Z0-9\s\-_áéíóúÁÉÍÓÚñÑ]+$/',
         'imagen_nueva' => 'nullable|image|max:3072|mimes:jpeg,png,jpg',
     ];
 
     public function mount(Vacante $vacante)
     {
+        // Verificar autorización: solo el propietario puede editar
+        if (auth()->id() !== $vacante->user_id) {
+            abort(403, 'No tienes permiso para editar esta vacante.');
+        }
+        
         $this->vacante = $vacante; 
         $this->vacante_id = $vacante->id;
         $this->titulo = $vacante->titulo;
@@ -81,11 +88,45 @@ class EditarVacante extends Component
 
     public function editarVacante()
     {
+        // Verificar autorización nuevamente antes de actualizar
+        if (auth()->id() !== $this->vacante->user_id) {
+            abort(403, 'No tienes permiso para editar esta vacante.');
+        }
+        
+        // Rate limiting para subidas de archivos: máximo 20 subidas por minuto
+        $key = 'upload-image:' . auth()->id();
+        if ($this->imagen_nueva && RateLimiter::tooManyAttempts($key, 20)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('imagen_nueva', "Demasiadas subidas. Intenta de nuevo en {$seconds} segundos.");
+            return;
+        }
+        
         $datos = $this->validate();
 
         if ($this->imagen_nueva) {
-            $imagen = $this->imagen_nueva->store('public/vacantes');
-            $datos['imagen'] = str_replace('public/vacantes/', '', $imagen);
+            // Incrementar contador de rate limiting
+            RateLimiter::hit($key, 60); // 60 segundos = 1 minuto
+            $fileValidator = new FileValidatorService();
+            $validation = $fileValidator->validateImage($this->imagen_nueva);
+            
+            if (!$validation['valid']) {
+                foreach ($validation['errors'] as $error) {
+                    $this->addError('imagen_nueva', $error);
+                }
+                return;
+            }
+            
+            // Eliminar la imagen anterior si existe
+            if ($this->vacante->imagen) {
+                $oldPath = 'public/vacantes/' . basename($this->vacante->imagen);
+                \Illuminate\Support\Facades\Storage::delete($oldPath);
+            }
+            
+            // Generar nombre único y seguro
+            $imageName = $fileValidator->generateSafeFileName($this->imagen_nueva, 'vacante');
+            
+            $imagen = $this->imagen_nueva->storeAs('public/vacantes', $imageName);
+            $datos['imagen'] = basename($imagen);
         }
 
         $vacante = Vacante::findOrFail($this->vacante_id);

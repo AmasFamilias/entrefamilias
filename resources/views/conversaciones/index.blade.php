@@ -51,12 +51,14 @@
                                 <div class="flex flex-col lg:flex-row-reverse items-start lg:items-center gap-6">
                                     
                                     <!-- Imagen del anuncio -->
-                                    <div class="lg:w-48 flex-shrink-0">
-                                        <img 
-                                            src="{{ $vacante->imagen ? asset('storage/vacantes/' . $vacante->imagen) : asset('images/default-vacante.png') }}" 
-                                            alt="Imagen vacante {{ $vacante->titulo }}" 
-                                            class="w-full h-32 object-cover rounded-lg shadow-md"
-                                        >
+                                    <div class="lg:w-48 w-full flex-shrink-0">
+                                        <div class="overflow-hidden rounded-lg shadow-md">
+                                            <img 
+                                                src="{{ $vacante->imagen ? route('file.vacante', ['vacanteId' => $vacante->id, 'filename' => basename($vacante->imagen)]) : asset('images/default-vacante.png') }}" 
+                                                alt="Imagen vacante {{ $vacante->titulo }}" 
+                                                class="w-full h-32 lg:h-32 object-cover"
+                                            >
+                                        </div>
                                     </div>
 
                                     <!-- Información de la vacante -->

@@ -1,5 +1,5 @@
 @component('mail::message')
-# <img src="{{ asset('images/entrefamilias.png') }}" alt="Entre Familias" style="max-width: 150px;">
+# <img src="{{ url('/images/entrefamilias.png') }}" alt="Entre Familias" style="max-width: 150px;">
 
 ## {{ $usuario->name }} te ha invitado a unirte a **{{ $organizacion->nombre }}** en EntreFamilias 🚀
 

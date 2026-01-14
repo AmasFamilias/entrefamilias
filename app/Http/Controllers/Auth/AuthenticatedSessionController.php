@@ -28,11 +28,32 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // return redirect()->intended(route('vacantes.index', absolute: false));
+        // Maneja la redirección de forma segura
+        $redirectUrl = $request->input('redirect');
         
-        // Maneja la redirección
-        $redirectUrl = $request->input('redirect', route('vacantes.index', absolute: false)); // Dashboard como fallback
-        return redirect()->intended($redirectUrl);
+        // Validar que redirect es seguro (solo URLs relativas o rutas de la aplicación)
+        if ($redirectUrl) {
+            // Si es una URL absoluta externa, rechazarla
+            if (filter_var($redirectUrl, FILTER_VALIDATE_URL) && parse_url($redirectUrl, PHP_URL_HOST) !== null) {
+                $redirectUrl = null;
+            }
+            // Si contiene caracteres peligrosos, rechazarla
+            if (preg_match('/[<>"\']/', $redirectUrl)) {
+                $redirectUrl = null;
+            }
+        }
+        
+        // Si no hay redirect válido o es null, usar intended con fallback seguro
+        if (!$redirectUrl) {
+            return redirect()->intended(route('vacantes.index', absolute: false));
+        }
+        
+        // Validar que la ruta existe y es relativa
+        try {
+            return redirect($redirectUrl);
+        } catch (\Exception $e) {
+            return redirect()->route('vacantes.index');
+        }
     }
 
     /**

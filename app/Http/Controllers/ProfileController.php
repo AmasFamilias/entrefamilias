@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Services\FileValidatorService;
 
 class ProfileController extends Controller
 {
@@ -56,20 +57,33 @@ class ProfileController extends Controller
     public function updateProfileImage(Request $request)
     {
         $request->validate([
-            'profile_image' => 'nullable|image|max:2048', // Máximo 2 MB
+            'profile_image' => 'required|image|mimes:jpeg,jpg,png|max:2048|dimensions:max_width=2000,max_height=2000', // Máximo 2 MB, formatos específicos, dimensiones máximas
         ]);
 
         $user = Auth::user();
 
         if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            
+            // Validar contenido del archivo
+            $fileValidator = new FileValidatorService();
+            $validation = $fileValidator->validateImage($file);
+            
+            if (!$validation['valid']) {
+                return redirect()->back()->withErrors(['profile_image' => implode(' ', $validation['errors'])]);
+            }
+
+            // Generar nombre único y seguro
+            $imageName = $fileValidator->generateSafeFileName($file, 'profile');
+
             // Eliminar la imagen anterior si existe
             if ($user->profile_image) {
-                Storage::delete('public/profiles/' . $user->profile_image);
+                $oldPath = 'public/profiles/' . basename($user->profile_image);
+                Storage::delete($oldPath);
             }
 
             // Guardar la nueva imagen
-            $imageName = time() . '.' . $request->file('profile_image')->extension();
-            $request->file('profile_image')->storeAs('public/profiles', $imageName);
+            $file->storeAs('public/profiles', $imageName);
 
             // Actualizar el campo en la base de datos
             $user->profile_image = $imageName;
@@ -85,7 +99,14 @@ class ProfileController extends Controller
 
         // Verifica si el usuario tiene una imagen y elimínala del almacenamiento
         if ($user->profile_image) {
-            Storage::delete('profiles/' . $user->profile_image);
+            // Sanitizar el nombre del archivo para prevenir path traversal
+            $imageName = basename($user->profile_image);
+            $path = 'public/profiles/' . $imageName;
+            
+            // Verificar que el archivo existe antes de eliminarlo
+            if (Storage::exists($path)) {
+                Storage::delete($path);
+            }
         }
 
         // Restablece la imagen al valor predeterminado

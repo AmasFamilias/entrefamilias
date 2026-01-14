@@ -24,14 +24,19 @@ class MensajeNotificacionController extends Controller
         $user = auth()->user();
         $notificacion = $user->notifications()->find($notificationId);
 
-        if ($notificacion) {
+        if (!$notificacion) {
+            abort(404, 'La notificación no existe.');
+        }
+
+        // Validar que la notificación pertenece al usuario autenticado
+        if ($notificacion->notifiable_id !== $user->id) {
+            abort(403, 'No tienes permiso para acceder a esta notificación.');
+        }
+
             $notificacion->markAsRead(); 
             return redirect()->route('mensajes.index', [
                 $notificacion->data['id_vacante'],
                 $notificacion->data['sender_id']
             ]);
-        }
-
-        return redirect()->route('notificaciones.mensajes')->with('error', 'La notificación no existe.');
     }
 }

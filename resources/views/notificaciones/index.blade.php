@@ -30,7 +30,7 @@
                                     <!-- Imagen -->
                                     <div class="sm:mr-4 mb-4 sm:mb-0">
                                         @if(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'candidato')
-                                            <img src="{{ asset('storage/vacantes/' . ($notificacion->data['imagen_vacante'] ?? 'default-vacante.png')) }}" 
+                                            <img src="{{ isset($notificacion->data['imagen_vacante']) && isset($notificacion->data['id_vacante']) ? route('file.vacante', ['vacanteId' => $notificacion->data['id_vacante'], 'filename' => basename($notificacion->data['imagen_vacante'])]) : asset('images/default-vacante.png') }}" 
                                                  alt="{{ $notificacion->data['nombre_vacante'] }}" 
                                                  class="h-14 w-14 rounded-lg object-cover shadow">
                                         @else
@@ -49,11 +49,15 @@
                                             <p class="text-lg font-semibold text-gray-800"> 
                                                 Nuevo contacto en <span class="font-bold">{{ $notificacion->data['nombre_vacante'] }}</span>
                                             </p>
+                                        @elseif(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'invitacion')
+                                            <p class="text-lg font-semibold text-gray-800">
+                                                Has sido invitado a colaborar en <span class="font-bold">{{ $notificacion->data['organizacion_nombre'] ?? 'Organización' }}</span>
+                                            </p>
+                                            <p class="text-sm text-gray-600">Invitado por: {{ $notificacion->data['admin_nombre'] ?? 'Administrador' }}</p>
                                         @else
                                             <p class="text-lg font-semibold text-gray-800">
-                                                Has sido invitado a colaborar en <span class="font-bold">{{ $notificacion->data['organizacion_nombre'] }}</span>
+                                                Notificación
                                             </p>
-                                            <p class="text-sm text-gray-600">Invitado por: {{ $notificacion->data['admin_nombre'] }}</p>
                                         @endif
                                         <p class="text-sm text-gray-600">Hace: {{ $notificacion->created_at->diffForHumans() }}</p>
                                     </div>
@@ -90,7 +94,7 @@
                                     <!-- Imagen -->
                                     <div class="sm:mr-4 mb-4 sm:mb-0">
                                         @if(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'candidato')
-                                            <img src="{{ asset('storage/vacantes/' . ($notificacion->data['imagen_vacante'] ?? 'default-vacante.png')) }}" 
+                                            <img src="{{ isset($notificacion->data['imagen_vacante']) && isset($notificacion->data['id_vacante']) ? route('file.vacante', ['vacanteId' => $notificacion->data['id_vacante'], 'filename' => basename($notificacion->data['imagen_vacante'])]) : asset('images/default-vacante.png') }}" 
                                                 alt="{{ $notificacion->data['nombre_vacante'] }}" 
                                                 class="h-14 w-14 rounded-lg object-cover shadow">
                                         @else
@@ -109,9 +113,13 @@
                                             <p class="text-lg font-semibold text-gray-700">
                                                 Contacto visto en <span class="font-bold">{{ $notificacion->data['nombre_vacante'] }}</span>
                                             </p>
+                                        @elseif(isset($notificacion->data['tipo']) && $notificacion->data['tipo'] === 'invitacion')
+                                            <p class="text-lg font-semibold text-gray-700">
+                                                Invitación vista de <span class="font-bold">{{ $notificacion->data['organizacion_nombre'] ?? 'Organización' }}</span>
+                                            </p>
                                         @else
                                             <p class="text-lg font-semibold text-gray-700">
-                                                Invitación vista de <span class="font-bold">{{ $notificacion->data['organizacion_nombre'] }}</span>
+                                                Notificación vista
                                             </p>
                                         @endif
                                         <p class="text-sm text-gray-500">Hace: {{ $notificacion->created_at->diffForHumans() }}</p>

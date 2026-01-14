@@ -22,7 +22,23 @@
         </p>
 
         <!-- Mensaje de estado -->
-        @if (session('status') == 'verification-link-sent')
+        @if (session('status') == 'registered-successfully')
+            <div class="mt-4 bg-green-100 border border-green-400 text-green-700 p-4 rounded-lg text-sm sm:text-base flex items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 13l4 4L19 7"/>
+                </svg>
+                <div class="text-left">
+                    <p class="font-semibold mb-1">¡Registro exitoso!</p>
+                    <p class="text-sm">
+                        Tu cuenta ha sido creada correctamente. Hemos enviado un correo de verificación 
+                        @if(auth()->check())
+                            a <strong>{{ auth()->user()->email }}</strong>
+                        @endif
+                        . Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu correo electrónico.
+                    </p>
+                </div>
+            </div>
+        @elseif (session('status') == 'verification-link-sent')
             <div class="mt-4 bg-green-100 text-green-700 p-3 rounded-lg text-xs sm:text-sm flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 13l4 4L19 7"/>

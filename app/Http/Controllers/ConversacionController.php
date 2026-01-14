@@ -12,8 +12,19 @@ class ConversacionController extends Controller
     public function index(Request $request)
     {
         $usuario = auth()->user();
+        
+        // Validar y sanitizar entrada
         $busqueda = $request->get('busqueda');
+        if ($busqueda) {
+            $busqueda = strip_tags($busqueda);
+            $busqueda = substr($busqueda, 0, 100); // Limitar longitud
+        }
+        
         $orden = $request->get('orden', 'reciente');
+        $ordenesPermitidos = ['reciente', 'antiguo', 'titulo'];
+        if (!in_array($orden, $ordenesPermitidos)) {
+            $orden = 'reciente';
+        }
 
         $query = Vacante::whereHas('mensajes', function($query) use ($usuario) {
             $query->where('sender_id', $usuario->id)

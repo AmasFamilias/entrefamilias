@@ -15,6 +15,7 @@ use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\OrganizacionController;
 use App\Http\Controllers\MensajeNotificacionController;
 use App\Http\Controllers\LegalController;
+use App\Http\Controllers\FileController;
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/funcionamiento', [HomeController::class, 'funcionamiento'])->name('funcionamiento');
@@ -40,10 +41,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/habilidades', [HabilidadController::class, 'index'])->name('habilidades.index');
     Route::get('/talentos', [TalentoController::class, 'index'])->name('talentos.index');
     Route::get('/principios', [PrincipioController::class, 'index'])->name('principios.index');
-    Route::post('/profile/update-image', [ProfileController::class, 'updateProfileImage'])->name('profile.updateImage');
+    Route::post('/profile/update-image', [ProfileController::class, 'updateProfileImage'])->middleware('throttle:10,1')->name('profile.updateImage');
     Route::delete('/profile/delete-image', [ProfileController::class, 'deleteImage'])->name('profile.deleteImage');
     Route::get('/organizaciones', [OrganizacionController::class, 'index'])->name('organizaciones.index');
 });
+
+// Rutas seguras para servir archivos
+// Archivos privados (requieren autenticación)
+Route::middleware('auth')->group(function () {
+    Route::get('/file/message/{messageId}/{filename}', [FileController::class, 'serveMessageFile'])->name('file.message');
+});
+
+// Archivos públicos (accesibles sin autenticación pero con validación de seguridad)
+// Las fotos de perfil son públicas porque se muestran en vacantes y otras secciones públicas
+Route::get('/file/profile/{userId}/{filename}', [FileController::class, 'serveProfileImage'])->name('file.profile');
+Route::get('/file/vacante/{vacanteId}/{filename}', [FileController::class, 'serveVacanteImage'])->name('file.vacante');
+Route::get('/file/organizacion/{organizacionId}/{filename}', [FileController::class, 'serveOrganizacionImage'])->name('file.organizacion');
 
 //Mensajes
 Route::middleware(['auth'])->group(function () {

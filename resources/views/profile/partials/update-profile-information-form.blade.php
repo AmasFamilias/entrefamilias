@@ -2,7 +2,7 @@
     <div class="flex justify-center items-center mb-4 relative group">
         <!-- Imagen de perfil -->
         <img id="profileImagePreview" 
-             src="{{ $user->profile_image ? asset('storage/profiles/' . $user->profile_image) : asset('images/datospersonales.png') }}" 
+             src="{{ $user->profile_image ? route('file.profile', ['userId' => $user->id, 'filename' => basename($user->profile_image)]) : asset('images/datospersonales.png') }}" 
              alt="Imagen de Perfil" 
              class="h-32 w-32 rounded-full object-cover border-4 border-gray-300">
 
